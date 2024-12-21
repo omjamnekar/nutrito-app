@@ -1,5 +1,7 @@
-abstract class ConnectionState {}
+abstract class ConnState {}
 
-class DesireState extends ConnectionState {}
+class SplashState extends ConnState {}
 
-class ConnectivityState extends ConnectionState {}
+class HomeState extends ConnState {}
+
+class BoardingState extends ConnState {}

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/pages/home.dart';
 
+// ignore: must_be_immutable
 class LoadingPage extends StatefulWidget {
-  const LoadingPage({super.key});
+  Widget toWidget;
+  LoadingPage({
+    super.key,
+    required this.toWidget,
+  });
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
@@ -25,7 +29,7 @@ class _LoadingPageState extends State<LoadingPage>
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => HomePage(),
+          pageBuilder: (context, animation1, animation2) => widget.toWidget,
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
               opacity: animation1,
@@ -35,16 +39,13 @@ class _LoadingPageState extends State<LoadingPage>
         ),
       );
     });
-    // Initialize the animation controller
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
-    )..repeat(reverse: true); // Repeat the floating effect indefinitely
-
-    // Initial slide-in animation (from outside)
+    )..repeat(reverse: true);
     _yellowImageAnimation = Tween<Offset>(
-      begin: const Offset(1.5, 0), // Start from the right
-      end: const Offset(0, 0), // End at the center (original position)
+      begin: const Offset(1.5, 0),
+      end: const Offset(0, 0),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
@@ -75,13 +76,11 @@ class _LoadingPageState extends State<LoadingPage>
       curve: Curves.easeInOut,
     ));
 
-    // Start the initial animation sequence
     _controller.forward();
   }
 
   @override
   void dispose() {
-    // Dispose of the animation controller
     _controller.dispose();
     super.dispose();
   }
@@ -91,7 +90,6 @@ class _LoadingPageState extends State<LoadingPage>
     return Scaffold(
       body: Stack(
         children: [
-          // Yellow image animation: First move from the right, then continue floating
           Positioned(
             top: 0,
             right: -20,
@@ -99,7 +97,7 @@ class _LoadingPageState extends State<LoadingPage>
               animation: _controller,
               builder: (context, child) {
                 return SlideTransition(
-                  position: _yellowImageAnimation.value == Offset(0, 0)
+                  position: _yellowImageAnimation.value == const Offset(0, 0)
                       ? _yellowFloatingAnimation // Once the first animation completes, start floating
                       : _yellowImageAnimation, // Otherwise, continue the slide-in animation
                   child: child,
@@ -111,7 +109,6 @@ class _LoadingPageState extends State<LoadingPage>
               ),
             ),
           ),
-          // Green image animation: First move from the left, then continue floating
           Positioned(
             bottom: -50,
             left: 0,
@@ -119,7 +116,7 @@ class _LoadingPageState extends State<LoadingPage>
               animation: _controller,
               builder: (context, child) {
                 return SlideTransition(
-                  position: _greenImageAnimation.value == Offset(0, 0)
+                  position: _greenImageAnimation.value == const Offset(0, 0)
                       ? _greenFloatingAnimation // Once the first animation completes, start floating
                       : _greenImageAnimation, // Otherwise, continue the slide-in animation
                   child: child,

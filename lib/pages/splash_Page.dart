@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/pages/onboarding.dart';
-
 import 'package:nutrito/util/color.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  Widget widget;
+  SplashPage({super.key, required this.widget});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -23,6 +22,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
+
     _animation = Tween<double>(begin: 0, end: 20).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -31,32 +31,36 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     );
 
     Future.delayed(const Duration(seconds: 3), () {
-      _animationController.reverse().then((_) {
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const OnboardingPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = 0.0;
-              const end = 1.0;
-              const curve = Curves.easeInOut;
+      if (mounted) {
+        // Ensure the widget is still in the widget tree
+        _animationController.reverse().then((_) {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) => widget,
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = 0.0;
+                  const end = 1.0;
+                  const curve = Curves.easeInOut;
 
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var fadeAnimation = animation.drive(tween);
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+                  var fadeAnimation = animation.drive(tween);
 
-              return FadeTransition(
-                opacity: fadeAnimation,
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(seconds: 1),
-            reverseTransitionDuration: const Duration(seconds: 1),
-          ),
-        );
-      });
+                  return FadeTransition(
+                    opacity: fadeAnimation,
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(seconds: 1),
+                reverseTransitionDuration: const Duration(seconds: 1),
+              ),
+            );
+          }
+        });
+      }
     });
   }
 
@@ -98,7 +102,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              // Loading nevigator
               Flexible(
                 flex: 1,
                 child: Container(
@@ -123,11 +126,9 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
-              // host name
-              Flexible(
+              const Flexible(
                 flex: 1,
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.end,

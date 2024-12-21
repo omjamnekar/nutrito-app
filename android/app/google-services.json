@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1059722601677",
+    "project_id": "nutrito-base",
+    "storage_bucket": "nutrito-base.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059722601677:android:3332922422cefe35537584",
+        "android_client_info": {
+          "package_name": "com.example.nutrito"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUAD7NAtC0KaLRaLq8abHjIT-1vNP0hyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

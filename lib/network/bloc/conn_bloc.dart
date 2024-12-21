@@ -1,26 +1,24 @@
-import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nutrito/network/bloc/conn_state.dart' as conn;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutrito/data/storage/user_Data.dart';
 import 'package:nutrito/network/bloc/conn_state.dart';
-import 'package:nutrito/network/provider/connectivity.dart';
+import 'package:nutrito/pages/home/home.dart';
 
-class ConnBloc extends Cubit<conn.ConnectionState> {
-  ConnBloc() : super(DesireState());
+class ConnBloc extends Cubit<ConnState> {
+  ConnBloc() : super(SplashState());
 
-  Future<void> isConAvailable(WidgetRef ref, BuildContext context) async {
-    final checkConection =
-        await ref.read(connectivityStateProvider.notifier).checkCurrentState();
+  Future<void> appStart() async {
+    UserStore userStore = UserStore();
+    final validState = await userStore.loadData();
 
-    if (checkConection.currentState == false) {
-      emit(conn.ConnectivityState());
+    await Future.delayed(Duration(seconds: 2));
+    if (validState.email != null && validState.email!.isNotEmpty) {
+      emit(HomeState());
+    } else {
+      emit(BoardingState());
+    }
+  }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(checkConection.connection ?? "No connection"),
-        ),
-      );
-    } else {}
+  Future<void> changeToBoarding() async {
+    emit(BoardingState());
   }
 }

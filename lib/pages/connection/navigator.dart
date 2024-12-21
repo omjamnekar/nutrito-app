@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
-import 'package:nutrito/network/bloc/conn_state.dart' as conn;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutrito/network/bloc/conn_bloc.dart';
-import 'package:nutrito/pages/connection/connectivity.dart';
+import 'package:nutrito/network/bloc/conn_state.dart';
+import 'package:nutrito/pages/home/home.dart';
+import 'package:nutrito/pages/onboarding.dart';
+import 'package:nutrito/pages/splash_Page.dart';
+import 'package:nutrito/pages/welcome.dart';
 
 class NavigatorPage extends StatefulWidget {
-  Widget desireWidget;
-
-  NavigatorPage({super.key, required this.desireWidget});
+  const NavigatorPage({super.key});
 
   @override
   State<NavigatorPage> createState() => _NavigatorPageState();
@@ -17,14 +17,20 @@ class NavigatorPage extends StatefulWidget {
 class _NavigatorPageState extends State<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConnBloc, conn.ConnectionState>(
+    return BlocBuilder<ConnBloc, ConnState>(
       builder: (context, state) {
-        if (state is conn.DesireState) {
-          return widget.desireWidget;
-        } else if (state is conn.ConnectivityState) {
-          return ConnectivityPage();
+        if (state is HomeState) {
+          return HomePage();
+        } else if (state is SplashState) {
+          return SplashPage(
+            widget: OnboardingPage(),
+          );
+        } else if (state is BoardingState) {
+          return WelcomePage();
         } else {
-          return ConnectivityPage();
+          return SplashPage(
+            widget: WelcomePage(),
+          );
         }
       },
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -12,7 +13,6 @@ class ConnectivityPage extends StatefulWidget {
 
 class _ConnectivityPageState extends State<ConnectivityPage>
     with TickerProviderStateMixin {
-  // Controller for Try Again button animation
   late AnimationController _buttonController;
   late Animation<double> _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05)
       .animate(
@@ -181,9 +181,7 @@ class _ConnectivityPageState extends State<ConnectivityPage>
                 ],
               ),
               child: TextButton(
-                onPressed: () {
-                  print("Try Again Pressed");
-                },
+                onPressed: () {},
                 child: Text(
                   "Try Again",
                   style: GoogleFonts.poppins(
