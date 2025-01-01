@@ -8,8 +8,8 @@ import 'package:nutrito/data/repositories/googleService.dart';
 import 'package:nutrito/network/provider/auth.dart';
 import 'package:nutrito/network/provider/user.dart';
 import 'package:nutrito/pages/auth/verification.dart';
-import 'package:nutrito/pages/home/home.dart';
-import 'package:nutrito/pages/trailing.dart';
+import 'package:nutrito/pages/main_page.dart';
+import 'package:nutrito/pages/dist/trailing.dart';
 
 class AuthController extends GetxController {
   // late AuthStateManager authNotifier;
@@ -46,13 +46,15 @@ class AuthController extends GetxController {
       (value) {
         if (value["state"] == "success") {
           Get.snackbar("SignIn", "SignIn Successfull",
-              padding: EdgeInsets.all(10));
+              padding: const EdgeInsets.all(10));
           Navigator.pushReplacement(
+              // ignore: use_build_context_synchronously
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const MainPage(),
               ));
         } else {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -120,16 +122,19 @@ class AuthController extends GetxController {
 
   Future<void> googleSignin(BuildContext context) async {
     try {
-      UserCredential data = await AuthService().signWithGoogle();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Google signin Successful")));
+      await AuthService().signWithGoogle();
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Google signin Successful")));
 
       Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
-            builder: (context) => TrailingPage(),
+            builder: (context) => const TrailingPage(),
           ));
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message.toString())));
     }

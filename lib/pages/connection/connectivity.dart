@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,9 +13,6 @@ class ConnectivityPage extends StatefulWidget {
 class _ConnectivityPageState extends State<ConnectivityPage>
     with TickerProviderStateMixin {
   late AnimationController _buttonController;
-  late Animation<double> _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05)
-      .animate(
-          CurvedAnimation(parent: _buttonController, curve: Curves.easeInOut));
 
   @override
   void initState() {
@@ -26,9 +22,6 @@ class _ConnectivityPageState extends State<ConnectivityPage>
       duration: const Duration(seconds: 1), // Reduced duration
       vsync: this,
     )..repeat(reverse: true);
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
-        CurvedAnimation(parent: _buttonController, curve: Curves.easeInOut));
   }
 
   @override
@@ -51,7 +44,7 @@ class _ConnectivityPageState extends State<ConnectivityPage>
               child: child,
             );
           },
-          child: Text("No Connection !"),
+          child: const Text("No Connection !"),
         ),
       ),
       body: Stack(
@@ -173,6 +166,7 @@ class _ConnectivityPageState extends State<ConnectivityPage>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: Colors.black38.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 8,

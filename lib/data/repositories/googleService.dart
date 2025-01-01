@@ -1,3 +1,5 @@
+// ignore: file_names
+// ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nutrito/data/model/auth.dart';

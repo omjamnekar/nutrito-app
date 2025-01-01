@@ -4,9 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/network/controller/auth.dart';
-import 'package:nutrito/pages/auth/forgot.dart';
-import 'package:nutrito/pages/auth/verification.dart';
-import 'package:nutrito/util/color.dart';
+
+import 'package:nutrito/util/theme/color.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -99,7 +98,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage>
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: const Icon(Icons.arrow_back)),
               ),
               Positioned(
                 top: -60,
@@ -127,7 +126,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage>
               Center(
                 child: Form(
                   key: _formKey,
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +177,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage>
                         // Login
                         const Gap(20),
                         animatedWidget(
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: TextButton(
                               onPressed: () {
@@ -190,7 +189,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage>
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black87),
+                                    WidgetStateProperty.all(Colors.black87),
                               ),
                               child: Text(
                                 "Send Verification Link",
@@ -206,7 +205,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage>
 
                         const Gap(18),
                         animatedWidget(
-                            Container(
+                            SizedBox(
                               child: Text(
                                 "Once it is reset! Try\nlogin Again.",
                                 textAlign: TextAlign.center,

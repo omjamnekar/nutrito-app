@@ -5,10 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/network/bloc/conn_bloc.dart';
-import 'package:nutrito/network/bloc/conn_state.dart';
 import 'package:nutrito/network/provider/user.dart';
-import 'package:nutrito/pages/splash_Page.dart';
-import 'package:nutrito/pages/welcome.dart';
+import 'package:nutrito/pages/dist/welcome.dart';
 
 class AuthStateManager extends StateNotifier<UserModel> {
   AuthStateManager() : super(UserModel());
@@ -33,10 +31,12 @@ class AuthStateManager extends StateNotifier<UserModel> {
 
       Get.snackbar(
           "Password Reset", "Password reset link has been sent to $email",
-          snackPosition: SnackPosition.BOTTOM, duration: Duration(seconds: 2));
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2));
     } on FirebaseAuthException catch (e) {
       Get.snackbar(e.email.toString(), "password reset link is shared!!",
-          snackPosition: SnackPosition.BOTTOM, duration: Duration(seconds: 2));
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2));
     }
   }
 
@@ -72,7 +72,7 @@ class AuthStateManager extends StateNotifier<UserModel> {
           phone: userOnline.phoneNumber ?? "",
           image: userOnline.displayName ?? "",
           password: "",
-          id: userOnline.uid ?? "");
+          id: userOnline.uid);
 
       await ref.read(userStateProvider.notifier).updateDataState(userModel);
     }
@@ -81,7 +81,7 @@ class AuthStateManager extends StateNotifier<UserModel> {
 
   Future<Map<String, dynamic>> signIn(String email, String password) async {
     try {
-      final userModel = await _firebase
+      await _firebase
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
         if (value.user != null) {
@@ -99,12 +99,13 @@ class AuthStateManager extends StateNotifier<UserModel> {
   }
 
   Future<void> signOut(BuildContext context, WidgetRef ref) async {
-    final connBloc = BlocProvider.of<ConnBloc>(context);
+    BlocProvider.of<ConnBloc>(context);
     await _firebase.signOut().then((_) async {
       await ref.read(userStateProvider.notifier).deleteDataState();
       // connBloc.emit(BoardingState());
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const WelcomePage()));
       Get.snackbar("Sign Out successful!", "feel free to give us feedback");
       return;
     }).catchError((error) {

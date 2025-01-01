@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/pages/auth/auth.dart';
-import 'package:nutrito/pages/home/home.dart';
-import 'package:nutrito/util/color.dart';
+import 'package:nutrito/util/theme/color.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

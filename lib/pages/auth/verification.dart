@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nutrito/network/controller/auth.dart';
-import 'package:nutrito/pages/home/home.dart';
-import 'package:nutrito/pages/trailing.dart';
+import 'package:nutrito/pages/dist/trailing.dart';
 
+// ignore: must_be_immutable
 class VerificationPage extends ConsumerStatefulWidget {
   AuthController authcontroller;
   VerificationPage({super.key, required this.authcontroller});
@@ -32,12 +31,14 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
         );
 
         Future.delayed(const Duration(seconds: 3), () {
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pop();
           Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
             context,
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
-                  TrailingPage(),
+                  const TrailingPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(1.0, 0.0);
@@ -114,7 +115,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 10),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(40), right: Radius.circular(40)),
@@ -149,7 +150,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                         const EdgeInsets.only(top: 20, left: 20, right: 10),
                     child: Column(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 350,
                           child: Text(
                             """○ We need to verify your email to ensure the security of your account.\n○ A verification link has been sent to your email. Please click to continue.""",
@@ -157,7 +158,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                                 fontSize: 12, color: Colors.black87),
                           ),
                         ),
-                        Gap(20),
+                        const Gap(20),
                         RichText(
                           text: const TextSpan(
                             text: "Need help? Contact support at ",

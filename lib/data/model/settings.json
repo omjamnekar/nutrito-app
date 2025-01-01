@@ -1,0 +1,124 @@
+{
+    "profile": {
+        "section_1": {
+            "avatar": "string",
+            "username": "string",
+            "email": "string",
+            "diataryIntake": {
+                "numb": 70,
+                "type": "percentage"
+            },
+            "healthScore": {
+                "numb": 20,
+                "type": "percentage"
+            },
+            "nutrientDeficiencies": {
+                "state": "GOOD"
+            },
+            "weight": {
+                "numb": 70,
+                "type": "kg"
+            },
+            "weightLoss": {
+                "numb": 6,
+                "type": "kg"
+            },
+            "nutriScore": {
+                "numb": 70,
+                "grade": "B",
+                "type": "percentage"
+            },
+            "groups": [
+                {
+                    "group": "group name"
+                },
+                {
+                    "group": "group name"
+                }
+            ],
+            "profileAccess": {
+                "options": [
+                    "Public",
+                    "Private"
+                ],
+                "access": "Public"
+            }
+        }
+    },
+    "scans": {
+        "healthRating": {
+            "range": [
+                "string",
+                "string"
+            ],
+            "selected": "string"
+        },
+        "allergen Alert": true,
+        "alternativeSuggestion": false,
+        "balanacedMeal": false,
+        "expiryAlert": false,
+        "scanModeSettings": {
+            "range": [
+                "string",
+                "string"
+            ],
+            "selected": "string"
+        }
+    },
+    "settings": {
+        "appSettings": {
+            "nutrientionSettings": {},
+            "themeAppearance": {},
+            "accuracy": {},
+            "supportedLanguage": {},
+            "storageManagement": {}
+        },
+        "access": {
+            "purchaseHistory": {},
+            "socialMediaIntegration": {},
+            "appUpdates": {},
+            "subscriptionManagement": {},
+            "dataUsage": {}
+        },
+        "services": {
+            "privacyPolicy": {},
+            "Feedback": {},
+            "termsOfService": {},
+            "appVersion": {}
+        }
+    },
+    "goals": {
+        "section1": {
+            "userGoalManagement": {
+                "goalCategories": {
+                    "range": [
+                        "string",
+                        "string"
+                    ],
+                    "selected": "string"
+                },
+                "customGoals": {},
+                "Ai Recommendations": {}
+            },
+            "foodProductAnalysis": {
+                "mlModel": {}
+            },
+            "foodProductConclusion": {
+                "goalAligmentReport": {},
+                "instantAlerts": {}
+            }
+        },
+        "section2": {
+            "healthDataRecordingAndVisualization": {
+                "healthMericsTracking": {},
+                "habitInsights": {},
+                "periodicReports": {},
+                "integrationWithWearables": {}
+            },
+            "other": {
+                "recipeSuggestions": {},
+                "mealPlanning": {}
+            }
+        }
+    }
+}

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:uuid/uuid.dart';
 
 class UserModel {
@@ -17,7 +15,7 @@ class UserModel {
     this.password,
     this.phone,
     this.image,
-  }) : id = id ?? Uuid().v1() ?? "";
+  }) : id = id ?? const Uuid().v1();
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -37,7 +35,7 @@ class UserModel {
       'email': email,
       'password': password,
       'phone': phone,
-      'image': image != null ? image!.toString() : null,
+      'image': image?.toString(),
     };
   }
 }

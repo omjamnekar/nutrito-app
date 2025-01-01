@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/pages/home/home.dart';
-import 'package:nutrito/pages/loading.dart';
+import 'package:nutrito/pages/main_page.dart';
+import 'package:nutrito/pages/dist/loading.dart';
 
 class TrailingPage extends StatefulWidget {
   const TrailingPage({super.key});
@@ -63,7 +63,7 @@ class _TrailingPageState extends State<TrailingPage> {
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
                             LoadingPage(
-                          toWidget: const HomePage(),
+                          toWidget: const MainPage(),
                         ),
                         transitionsBuilder:
                             (context, animation1, animation2, child) {

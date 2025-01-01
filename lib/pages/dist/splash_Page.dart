@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/util/color.dart';
+import 'package:nutrito/util/theme/color.dart';
 
+// ignore: must_be_immutable
 class SplashPage extends StatefulWidget {
   Widget widget;
   SplashPage({super.key, required this.widget});
@@ -130,7 +131,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                 flex: 1,
                 child: SizedBox(
                   width: double.infinity,
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

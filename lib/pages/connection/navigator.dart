@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutrito/network/bloc/conn_bloc.dart';
 import 'package:nutrito/network/bloc/conn_state.dart';
-import 'package:nutrito/pages/home/home.dart';
-import 'package:nutrito/pages/onboarding.dart';
-import 'package:nutrito/pages/splash_Page.dart';
-import 'package:nutrito/pages/welcome.dart';
+import 'package:nutrito/pages/main_page.dart';
+import 'package:nutrito/pages/dist/onboarding.dart';
+import 'package:nutrito/pages/dist/splash_Page.dart';
+import 'package:nutrito/pages/dist/welcome.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -20,16 +20,16 @@ class _NavigatorPageState extends State<NavigatorPage> {
     return BlocBuilder<ConnBloc, ConnState>(
       builder: (context, state) {
         if (state is HomeState) {
-          return HomePage();
+          return const MainPage();
         } else if (state is SplashState) {
           return SplashPage(
-            widget: OnboardingPage(),
+            widget: const OnboardingPage(),
           );
         } else if (state is BoardingState) {
-          return WelcomePage();
+          return const WelcomePage();
         } else {
           return SplashPage(
-            widget: WelcomePage(),
+            widget: const WelcomePage(),
           );
         }
       },

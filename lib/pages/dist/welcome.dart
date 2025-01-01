@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nutrito/pages/onboarding.dart';
-import 'package:nutrito/util/color.dart';
+import 'package:nutrito/pages/dist/onboarding.dart';
+import 'package:nutrito/util/theme/color.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -54,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage>
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              OnboardingPage(),
+              const OnboardingPage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Apply the FadeTransition to fade out current page before navigating
             return FadeTransition(
@@ -107,9 +107,9 @@ class _WelcomePageState extends State<WelcomePage>
                   textAlign: TextAlign.left,
                   text: TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: "WELCOME TO\n",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.black87,
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
@@ -131,7 +131,7 @@ class _WelcomePageState extends State<WelcomePage>
 
             Positioned(
                 child: Transform.translate(
-              offset: Offset(0, 100),
+              offset: const Offset(0, 100),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -190,7 +190,7 @@ class _WelcomePageState extends State<WelcomePage>
                         child: Container(
                           width: rollerSize - 10,
                           height: rollerSize - 10,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white,
                             boxShadow: [
@@ -214,20 +214,18 @@ class _WelcomePageState extends State<WelcomePage>
                           child: !isToggled
                               ? Text(
                                   "Let's Start",
-                                  key: ValueKey("start"),
+                                  key: const ValueKey("start"),
                                   style: GoogleFonts.poppins(
                                       fontSize: 30,
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255),
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 )
                               : Text(
                                   "Be Healthy!!",
-                                  key: ValueKey("healthy"),
+                                  key: const ValueKey("healthy"),
                                   style: GoogleFonts.poppins(
                                       fontSize: 30,
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255),
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
                         ),

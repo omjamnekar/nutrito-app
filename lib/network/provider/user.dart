@@ -1,13 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/data/storage/user_Data.dart';
 
 class UserDataManager extends StateNotifier<UserModel> {
   UserDataManager() : super(UserModel());
-  UserStore _userStore = UserStore();
+  final UserStore _userStore = UserStore();
 
   Future<UserModel> loadDataState() async {
     try {
