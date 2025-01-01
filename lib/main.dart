@@ -1,15 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-
 import 'package:nutrito/network/bloc/conn_bloc.dart';
 import 'package:nutrito/network/depandancies.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nutrito/pages/connection/navigator.dart';
-
 import 'firebase_options.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +17,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
   DependancyInjection.init();
 }
@@ -37,6 +38,8 @@ class MyApp extends ConsumerWidget {
           ),
           debugShowCheckedModeBanner: false,
           home: const NavigatorPage(),
+          // home: const NutrilizationPage(),
+          // home: OrderTrackingPage(),
         ),
       ),
     );

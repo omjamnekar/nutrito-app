@@ -1,15 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/data/model/auth.dart';
-import 'package:nutrito/data/repositories/googleService.dart';
 import 'package:nutrito/network/controller/auth.dart';
 import 'package:nutrito/pages/auth/forgot.dart';
-import 'package:nutrito/pages/trailing.dart';
-import 'package:nutrito/util/color.dart';
+import 'package:nutrito/util/theme/color.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -94,11 +90,11 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
         init: AuthController(ref: ref),
         builder: (ctrl) {
           return SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 100,
                     child: Stack(
                       children: [
@@ -261,7 +257,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
                             ),
                             const Gap(10),
                             animatedWidget(
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: TextButton(
                                   onPressed: () {
@@ -279,8 +275,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
                                     }
                                   },
                                   style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.black87),
+                                    backgroundColor:
+                                        WidgetStateProperty.all(Colors.black87),
                                   ),
                                   child: Text(
                                     !isSignIn ? "Sign Up" : "Sign In",
@@ -293,8 +289,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
                               ),
                               1,
                             ),
-                            Gap(30),
-                            animatedWidget(Text("OR"), 1),
+                            const Gap(30),
+                            animatedWidget(const Text("OR"), 1),
                             Column(
                               children: [
                                 GestureDetector(
@@ -334,13 +330,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
                                     ],
                                   ),
                                 ),
-                                1)
+                                1),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  // Add this 'Positioned' widget only if needed in the Stack
                 ],
               ),
             ),

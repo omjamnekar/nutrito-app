@@ -1,135 +1,66 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nutrito/network/controller/auth.dart';
-import 'package:nutrito/pages/home/opener.dart';
-import 'package:nutrito/util/color.dart';
+import 'dart:math';
 
-class HomePage extends ConsumerStatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:nutrito/pages/home/components/hero_Section.dart';
+import 'package:nutrito/pages/home/components/second_section.dart';
+import 'package:nutrito/pages/home/components/trigger.dart';
+import 'package:nutrito/pages/home/graph/ai_suggestion.dart';
+import 'package:nutrito/pages/home/graph/goals.dart';
+import 'package:nutrito/pages/home/graph/hero_Indicator.dart';
+import 'package:nutrito/pages/home/graph/last_section.dart';
+import 'package:nutrito/pages/home/graph/sleep.dart';
+import 'graph/bar.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
-  int selectedIndex = 0; // Keep track of the selected tab
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-  final List<Map<String, String>> tabs = [
-    {"icon": "assets/image/home/home.png", "label": "Home"},
-    {"icon": "assets/image/home/search.png", "label": "Search"},
-    {"icon": "assets/image/home/camera.png", "label": "Camera"},
-    {"icon": "assets/image/home/message.png", "label": "Message"},
-    {"icon": "assets/image/home/profile.png", "label": "Profile"},
-  ];
-
-  void onTabTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    print("home page");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 80,
-        title: Stack(
-          children: [
-            Container(), // Placeholder for spinner or actuator
-            Container(
-              padding: const EdgeInsets.only(top: 20),
-              child: GestureDetector(
-                onTap: () {},
-                child: Image.asset(
-                  "assets/image/home/menu.png",
-                  width: 35,
-                ),
+      backgroundColor: const Color.fromARGB(255, 248, 248, 248),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 3, right: 3),
+          child: Column(
+            children: [
+              HeroSection(),
+              Gap(20),
+              TriggerSection(),
+              Gap(20),
+              WeeklySection(),
+              Gap(20),
+              SleepDurationSection(),
+              Gap(20),
+              AiSuggestion(),
+              Gap(20),
+              MainGraphSection(),
+              GoalHomeSections(),
+              BarGraphSection(),
+              DashboardWidget(
+                steps: 7500,
+                goalSteps: 10000,
+                water: 2.5,
+                calories: '1800 kcal',
+                pulse: 72,
+                weight: 68.5,
               ),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AuthController(ref: ref).signout(context);
-        },
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: Image.asset(
-          "assets/image/home/boat.png",
-          width: 60,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-      bottomNavigationBar: Container(
-        height: 200,
-        child: Stack(
-          children: [
-            // Conditionally display OpenerCamera only when the third tab is selected
-            if (selectedIndex == 2) OpenerCamera(),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 63,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(tabs.length, (index) {
-                    return _buildTabItem(
-                      icon: tabs[index]["icon"]!,
-                      isSelected: selectedIndex == index,
-                      onTap: () => onTabTapped(index),
-                    );
-                  }),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabItem({
-    required String icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: onTap,
-            icon: Image.asset(
-              icon,
-              width: 35,
-            ),
+            ],
           ),
-          if (isSelected)
-            Container(
-              height: 2,
-              width: 40,
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 4,
-                    color: ColorManager.greenPrimary,
-                  ),
-                ),
-              ),
-            )
-        ],
+        ),
       ),
     );
   }
