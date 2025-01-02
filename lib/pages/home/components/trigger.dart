@@ -4,9 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/pages/functions/compare.dart';
 import 'package:nutrito/pages/functions/nutrilization.dart';
-import 'package:nutrito/pages/functions/suggestion.dart';
-import 'package:nutrito/pages/settings/components/goal.dart';
-import 'package:nutrito/util/theme/color.dart';
+import 'package:nutrito/pages/functions/smartList.dart';
 
 class TriggerSection extends StatefulWidget {
   const TriggerSection({super.key});
@@ -45,7 +43,7 @@ class _TriggerSectionState extends State<TriggerSection> {
     {
       "icon": Icons.grain_outlined,
       "name": "Suggestion Product",
-      "onTap": SuggestionPage(),
+      "onTap": SmartListPage(),
     },
     {
       "icon": Icons.auto_graph_outlined,

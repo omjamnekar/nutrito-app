@@ -102,6 +102,9 @@ flutter:
     - assets/image/settings/set/
     - assets/image/media/
     - assets/image/gen/
+    - assets/image/smartlist/fruits/
+    - assets/image/smartlist/veggies/
+    - assets/image/smartlist/products/
     - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

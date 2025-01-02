@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/network/controller/auth.dart';
 import 'package:nutrito/pages/functions/compare.dart';
 import 'package:nutrito/pages/functions/nutrilization.dart';
-import 'package:nutrito/pages/functions/suggestion.dart';
+import 'package:nutrito/pages/functions/smartList.dart';
 import 'package:nutrito/pages/home/components/drawer.dart';
 import 'package:nutrito/pages/home/home.dart';
 import 'package:nutrito/pages/home/components/opener.dart';
@@ -54,7 +54,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     const SettingsPage(),
     ComaparePage(),
     NutrilizationPage(),
-    SuggestionPage(),
+    SmartListPage(),
   ];
 
   @override
@@ -244,7 +244,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              SuggestionPage(),
+              SmartListPage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;
