@@ -205,117 +205,118 @@ class MainGraphSection extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Transform.translate(
-                  offset: Offset(0, -5),
-                  child: Container(
-                    height: 170,
-                    width: 195,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 5,
-                          offset: Offset(0, 0),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "State",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                              color: const Color.fromARGB(221, 61, 61, 61),
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 5,
-                            top: 5,
-                            bottom: 5,
-                          ),
-                          child: WaterAnimation(
-                            percentage: 55,
-                            ml: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Gap(10),
-                ClipRRect(
-                  child: Transform.translate(
-                    offset: Offset(0, -100),
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      padding: EdgeInsets.only(
-                        top: 10,
-                        right: 10,
-                        left: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color.fromARGB(255, 181, 181, 181)
-                                .withOpacity(0.3),
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Spacer(),
-                          DotIndicator(
-                            text: "Vitamins",
-                            indicate: 2,
-                          ),
-                          Gap(10),
-                          DotIndicator(
-                            text: "Minerals",
-                            indicate: 4,
-                          ),
-                          Gap(10),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 8.0, bottom: 8.0),
-                              child: Text(
-                                "More",
-                                textAlign: TextAlign.right,
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromARGB(221, 76, 76, 76)),
-                              ),
-                            ),
-                          ),
-                          Gap(5),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Gap(20),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 2),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Transform.translate(
+          //         offset: Offset(0, -5),
+          //         child: Container(
+          //           height: 170,
+          //           width: 195,
+          //           decoration: BoxDecoration(
+          //             color: const Color.fromARGB(255, 255, 255, 255),
+          //             boxShadow: [
+          //               BoxShadow(
+          //                 color: Colors.grey.withOpacity(0.3),
+          //                 blurRadius: 5,
+          //                 offset: Offset(0, 0),
+          //               ),
+          //             ],
+          //             borderRadius: BorderRadius.circular(10),
+          //           ),
+          //           child: Column(
+          //             children: [
+          //               Container(
+          //                 padding: EdgeInsets.only(left: 10),
+          //                 alignment: Alignment.topLeft,
+          //                 child: Text(
+          //                   "State",
+          //                   style: GoogleFonts.poppins(
+          //                     fontWeight: FontWeight.w500,
+          //                     fontSize: 20,
+          //                     color: const Color.fromARGB(221, 61, 61, 61),
+          //                   ),
+          //                 ),
+          //               ),
+          //               Spacer(),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   right: 5,
+          //                   top: 5,
+          //                   bottom: 5,
+          //                 ),
+          //                 child: WaterAnimation(
+          //                   percentage: 55,
+          //                   ml: 20,
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //       Gap(10),
+          //       // ClipRRect(
+          //       //   child: Transform.translate(
+          //       //     offset: Offset(0, -100),
+          //       //     child: Container(
+          //       //       width: 200,
+          //       //       height: 200,
+          //       //       padding: EdgeInsets.only(
+          //       //         top: 10,
+          //       //         right: 10,
+          //       //         left: 10,
+          //       //       ),
+          //       //       decoration: BoxDecoration(
+          //       //         borderRadius: BorderRadius.circular(10),
+          //       //         color: Colors.white,
+          //       //         boxShadow: [
+          //       //           BoxShadow(
+          //       //             color: const Color.fromARGB(255, 181, 181, 181)
+          //       //                 .withOpacity(0.3),
+          //       //             blurRadius: 5,
+          //       //             offset: Offset(0, 1),
+          //       //           ),
+          //       //         ],
+          //       //       ),
+          //       //       child: Column(
+          //       //         children: [
+          //       //           Spacer(),
+          //       //           DotIndicator(
+          //       //             text: "Vitamins",
+          //       //             indicate: 2,
+          //       //           ),
+          //       //           Gap(10),
+          //       //           DotIndicator(
+          //       //             text: "Minerals",
+          //       //             indicate: 4,
+          //       //           ),
+          //       //           Gap(10),
+          //       //           Align(
+          //       //             alignment: Alignment.centerRight,
+          //       //             child: Padding(
+          //       //               padding: const EdgeInsets.only(
+          //       //                   right: 8.0, bottom: 8.0),
+          //       //               child: Text(
+          //       //                 "More",
+          //       //                 textAlign: TextAlign.right,
+          //       //                 style: GoogleFonts.poppins(
+          //       //                     color:
+          //       //                         const Color.fromARGB(221, 76, 76, 76)),
+          //       //               ),
+          //       //             ),
+          //       //           ),
+          //       //           Gap(5),
+          //       //         ],
+          //       //       ),
+          //       //     ),
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

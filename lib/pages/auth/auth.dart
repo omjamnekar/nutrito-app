@@ -92,99 +92,70 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
           return SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: -100,
-                          right: -50,
-                          child: AnimatedBuilder(
-                            animation: _animationController,
-                            builder: (context, _) {
-                              return Opacity(
-                                opacity: _opacityAnimation.value,
-                                child: Transform.translate(
-                                  offset: Offset(0, _offsetAnimation.value),
-                                  child: Image.asset(
-                                    !isSignIn
-                                        ? "assets/image/auth/signup.png"
-                                        : "assets/image/auth/signIn.png",
-                                    key: ValueKey<bool>(isSignIn),
-                                    width: !isSignIn ? widthof[0] : widthof[1],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Ensure 'Positioned' is inside the 'Stack'
-                  Center(
-                    child: Form(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        color: Colors.transparent,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Gap(30),
-                            animatedWidget(
-                              Text(
-                                !isSignIn ? "Register" : "Login",
-                                style: GoogleFonts.inter(
-                                  fontSize: 49,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              1,
-                            ),
-                            const Gap(20),
-                            animatedWidget(
-                              TextFormField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  focusColor: ColorManager.greenPrimary,
-                                  hintStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 129, 129, 129),
-                                      fontSize: 20),
-                                  hintText: "Email",
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                        width: 3,
-                                        color:
-                                            Color.fromARGB(221, 163, 163, 163),
-                                        style: BorderStyle.solid,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      width: 20,
-                                      color: Color.fromARGB(221, 163, 163, 163),
-                                      style: BorderStyle.solid,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 100,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: -100,
+                            right: -50,
+                            child: AnimatedBuilder(
+                              animation: _animationController,
+                              builder: (context, _) {
+                                return Opacity(
+                                  opacity: _opacityAnimation.value,
+                                  child: Transform.translate(
+                                    offset: Offset(0, _offsetAnimation.value),
+                                    child: Image.asset(
+                                      !isSignIn
+                                          ? "assets/image/auth/signup.png"
+                                          : "assets/image/auth/signIn.png",
+                                      key: ValueKey<bool>(isSignIn),
+                                      width:
+                                          !isSignIn ? widthof[0] : widthof[1],
                                     ),
                                   ),
-                                ),
-                              ),
-                              2,
+                                );
+                              },
                             ),
-                            if (isSignIn == false) const Gap(20),
-                            if (isSignIn == false)
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Ensure 'Positioned' is inside the 'Stack'
+                    Center(
+                      child: Form(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Gap(30),
+                              animatedWidget(
+                                Text(
+                                  !isSignIn ? "Register" : "Login",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 49,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                1,
+                              ),
+                              const Gap(20),
                               animatedWidget(
                                 TextFormField(
-                                  controller: usernameController,
+                                  controller: emailController,
                                   decoration: InputDecoration(
                                     focusColor: ColorManager.greenPrimary,
                                     hintStyle: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 129, 129, 129),
                                         fontSize: 20),
-                                    hintText: "Username",
+                                    hintText: "Email",
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
@@ -206,137 +177,174 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
                                 ),
                                 2,
                               ),
-                            const Gap(20),
-                            animatedWidget(
-                              TextFormField(
-                                controller: passwordController,
-                                decoration: InputDecoration(
-                                  focusColor: ColorManager.greenPrimary,
-                                  hintStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 129, 129, 129),
-                                      fontSize: 20),
-                                  hintText: "Password",
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                              if (isSignIn == false) const Gap(20),
+                              if (isSignIn == false)
+                                animatedWidget(
+                                  TextFormField(
+                                    controller: usernameController,
+                                    decoration: InputDecoration(
+                                      focusColor: ColorManager.greenPrimary,
+                                      hintStyle: const TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 129, 129, 129),
+                                          fontSize: 20),
+                                      hintText: "Username",
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                            width: 3,
+                                            color: Color.fromARGB(
+                                                221, 163, 163, 163),
+                                            style: BorderStyle.solid,
+                                          )),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: const BorderSide(
+                                          width: 20,
+                                          color: Color.fromARGB(
+                                              221, 163, 163, 163),
+                                          style: BorderStyle.solid,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  2,
+                                ),
+                              const Gap(20),
+                              animatedWidget(
+                                TextFormField(
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                    focusColor: ColorManager.greenPrimary,
+                                    hintStyle: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 129, 129, 129),
+                                        fontSize: 20),
+                                    hintText: "Password",
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                          width: 3,
+                                          color: Color.fromARGB(
+                                              221, 163, 163, 163),
+                                          style: BorderStyle.solid,
+                                        )),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                       borderSide: const BorderSide(
-                                        width: 3,
+                                        width: 20,
                                         color:
                                             Color.fromARGB(221, 163, 163, 163),
                                         style: BorderStyle.solid,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      width: 20,
-                                      color: Color.fromARGB(221, 163, 163, 163),
-                                      style: BorderStyle.solid,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                2,
                               ),
-                              2,
-                            ),
-                            const Gap(50),
-                            // Login
-                            animatedWidget(
-                              GestureDetector(
-                                onTap: () {
-                                  signInFrameChange();
-                                },
-                                child: const Text(
-                                  "Already have an account? Login",
-                                  style: TextStyle(
-                                    height: 2,
-                                    fontSize: 15,
-                                    color: Colors.black87,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                              2,
-                            ),
-                            const Gap(10),
-                            animatedWidget(
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: TextButton(
-                                  onPressed: () {
-                                    FocusScope.of(context).unfocus();
-                                    if (!isSignIn) {
-                                      ctrl.signUpAuth(
-                                          ref,
-                                          usernameController.text,
-                                          emailController.text,
-                                          passwordController.text,
-                                          ctrl);
-                                    } else {
-                                      ctrl.signIn(emailController.text,
-                                          passwordController.text, context);
-                                    }
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all(Colors.black87),
-                                  ),
-                                  child: Text(
-                                    !isSignIn ? "Sign Up" : "Sign In",
-                                    style: GoogleFonts.inter(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              1,
-                            ),
-                            const Gap(30),
-                            animatedWidget(const Text("OR"), 1),
-                            Column(
-                              children: [
+                              const Gap(50),
+                              // Login
+                              animatedWidget(
                                 GestureDetector(
-                                  onTap: () => ctrl.googleSignin(context),
-                                  child: _buildSocialButton('Google',
-                                      'assets/image/auth/google.png', 1),
-                                ),
-                                const Gap(10),
-                                _buildSocialButton('Github',
-                                    'assets/image/auth/github.png', 2),
-                              ],
-                            ),
-                            const Gap(50),
-                            animatedWidget(
-                                Center(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ForgotPasswordPage(),
-                                              ));
-                                        },
-                                        child: Text(
-                                          "Forgot Password ?",
-                                          style:
-                                              GoogleFonts.poppins(fontSize: 15),
-                                        ),
-                                      ),
-                                      const Gap(40)
-                                    ],
+                                  onTap: () {
+                                    signInFrameChange();
+                                  },
+                                  child: const Text(
+                                    "Already have an account? Login",
+                                    style: TextStyle(
+                                      height: 2,
+                                      fontSize: 15,
+                                      color: Colors.black87,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
                                 ),
-                                1),
-                          ],
+                                2,
+                              ),
+                              const Gap(10),
+                              animatedWidget(
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
+                                      if (!isSignIn) {
+                                        ctrl.signUpAuth(
+                                            ref,
+                                            usernameController.text,
+                                            emailController.text,
+                                            passwordController.text,
+                                            ctrl);
+                                      } else {
+                                        ctrl.signIn(emailController.text,
+                                            passwordController.text, context);
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStateProperty.all(
+                                          Colors.black87),
+                                    ),
+                                    child: Text(
+                                      !isSignIn ? "Sign Up" : "Sign In",
+                                      style: GoogleFonts.inter(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                1,
+                              ),
+                              const Gap(30),
+                              animatedWidget(const Text("OR"), 1),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => ctrl.googleSignin(context),
+                                    child: _buildSocialButton('Google',
+                                        'assets/image/auth/google.png', 1),
+                                  ),
+                                  const Gap(10),
+                                  _buildSocialButton('Github',
+                                      'assets/image/auth/github.png', 2),
+                                ],
+                              ),
+                              const Gap(50),
+                              animatedWidget(
+                                  Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ForgotPasswordPage(),
+                                                ));
+                                          },
+                                          child: Text(
+                                            "Forgot Password ?",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                        const Gap(40)
+                                      ],
+                                    ),
+                                  ),
+                                  1),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

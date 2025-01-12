@@ -143,148 +143,151 @@ class _OnboardingPageState extends State<OnboardingPage> {
         opacity: _isPageVisible ? 1.0 : 0.0, // Control opacity for fade-in
         duration: const Duration(
             milliseconds: 800), // Adjust duration for fade-in effect
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                AnimatedOpacity(
-                  opacity: isVisible ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 300),
-                  child: Transform.translate(
-                    offset: coordinates1[currentIndex],
-                    child: Image.asset(
-                      _frame1[currentIndex],
-                      width: 250,
-                      height: 250,
-                    ),
-                  ),
-                ),
-                AnimatedOpacity(
-                  opacity: isVisible ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 300),
-                  child: Transform.translate(
-                    offset: coordinates2[currentIndex],
-                    child: Image.asset(
-                      _frame2[currentIndex],
-                      width: 150,
-                      height: 250,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            AnimatedOpacity(
-              opacity: isVisible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Transform.translate(
-                offset: const Offset(80, 0),
-                child: heroAnimation[currentIndex],
-              ),
-            ),
-            const Spacer(),
-            AnimatedOpacity(
-              opacity: isVisible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  heading[currentIndex],
-                  style: GoogleFonts.cabin(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            AnimatedOpacity(
-              opacity: isVisible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                width: MediaQuery.of(context).size.width + 100 / 2,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  description[currentIndex],
-                  style: GoogleFonts.ibmPlexSans(
-                      color: const Color.fromARGB(221, 96, 96, 96),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            const Gap(30),
-            Container(
-              // color: Colors.amber,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Flexible(
-                    flex: 2,
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.black87,
-                          borderRadius: BorderRadius.circular(50)),
-                      child: IconButton(
-                        onPressed: () {
-                          changeIndex(
-                              isNext: false); // Trigger backward animation
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: Colors.white,
-                        ),
+                  AnimatedOpacity(
+                    opacity: isVisible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Transform.translate(
+                      offset: coordinates1[currentIndex],
+                      child: Image.asset(
+                        _frame1[currentIndex],
+                        width: 250,
+                        height: 250,
                       ),
                     ),
                   ),
-                  Flexible(
-                    flex: 4,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.black87,
-                          borderRadius: BorderRadius.circular(50)),
-                      child: TextButton(
-                        onPressed: () {
-                          changeIndex(isNext: true);
-                        },
-                        child: Text(
-                          "Next",
-                          style: GoogleFonts.inter(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: ColorManager.greenPrimary),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    flex: 2,
-                    child: Visibility(
-                      visible: makeHomeVisible,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.black87,
-                            borderRadius: BorderRadius.circular(50)),
-                        child: TextButton(
-                          onPressed: () {
-                            navigateToSignUp();
-                          },
-                          child: const Icon(
-                            Icons.home,
-                            color: Colors.white,
-                          ),
-                        ),
+                  AnimatedOpacity(
+                    opacity: isVisible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Transform.translate(
+                      offset: coordinates2[currentIndex],
+                      child: Image.asset(
+                        _frame2[currentIndex],
+                        width: 150,
+                        height: 250,
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            const Gap(20)
-          ],
+              AnimatedOpacity(
+                opacity: isVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: Transform.translate(
+                  offset: const Offset(80, 0),
+                  child: heroAnimation[currentIndex],
+                ),
+              ),
+              const Spacer(),
+              AnimatedOpacity(
+                opacity: isVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    heading[currentIndex],
+                    style: GoogleFonts.cabin(
+                        fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              AnimatedOpacity(
+                opacity: isVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: Container(
+                  width: MediaQuery.of(context).size.width + 100 / 2,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    description[currentIndex],
+                    style: GoogleFonts.ibmPlexSans(
+                        color: const Color.fromARGB(221, 96, 96, 96),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const Gap(30),
+              Container(
+                // color: Colors.amber,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: IconButton(
+                          onPressed: () {
+                            changeIndex(
+                                isNext: false); // Trigger backward animation
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 4,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: TextButton(
+                          onPressed: () {
+                            changeIndex(isNext: true);
+                          },
+                          child: Text(
+                            "Next",
+                            style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                color: ColorManager.greenPrimary),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Flexible(
+                      flex: 2,
+                      child: Visibility(
+                        visible: makeHomeVisible,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.black87,
+                              borderRadius: BorderRadius.circular(50)),
+                          child: TextButton(
+                            onPressed: () {
+                              navigateToSignUp();
+                            },
+                            child: const Icon(
+                              Icons.home,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(20)
+            ],
+          ),
         ),
       ),
     );

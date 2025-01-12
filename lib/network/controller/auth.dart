@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/data/repositories/googleService.dart';
 import 'package:nutrito/network/provider/auth.dart';
+import 'package:nutrito/network/provider/primary_Setup.dart';
 import 'package:nutrito/network/provider/user.dart';
 import 'package:nutrito/pages/auth/verification.dart';
 import 'package:nutrito/pages/main_page.dart';
@@ -26,15 +27,30 @@ class AuthController extends GetxController {
     snackBar(registerData["message"]);
     FocusScope.of(Get.context!).unfocus();
     if (registerData["state"] == 'success') {
+      print("datta data :${registerData["id"]}");
       final userModel = UserModel(
-          email: email, password: password, name: name, image: "", phone: "");
-      ref.watch(userStateProvider.notifier).updateDataState(userModel);
+          id: registerData["id"],
+          email: email,
+          password: password,
+          name: name,
+          image: "",
+          phone: "");
+      await ref.watch(userStateProvider.notifier).updateDataState(userModel);
 
-      Get.to(
-          () => VerificationPage(
-                authcontroller: ctrl,
-              ),
-          transition: Transition.fade);
+      await ref.read(primarySetupProvider.notifier).setupPrimaryCourse().then(
+        (value) {
+          if (value.statusCode == 200 || value.statusCode == 201) {
+            Get.to(
+                () => VerificationPage(
+                      authcontroller: ctrl,
+                    ),
+                transition: Transition.fade);
+          } else {
+            Get.snackbar(value.statusCode.toString(),
+                value.message?.toString() ?? "network errors");
+          }
+        },
+      );
     } else {
       return;
     }
@@ -43,16 +59,38 @@ class AuthController extends GetxController {
   Future<void> signIn(
       String email, String password, BuildContext context) async {
     await ref.watch(authStateProvider.notifier).signIn(email, password).then(
-      (value) {
+      (value) async {
         if (value["state"] == "success") {
           Get.snackbar("SignIn", "SignIn Successfull",
               padding: const EdgeInsets.all(10));
-          Navigator.pushReplacement(
-              // ignore: use_build_context_synchronously
-              context,
-              MaterialPageRoute(
-                builder: (context) => const MainPage(),
-              ));
+          final userModel2 =
+              UserModel(email: email, id: value["id"], name: value["name"]);
+
+          print("datta final id${value["id"]}");
+
+          await ref
+              .watch(userStateProvider.notifier)
+              .updateDataState(userModel2);
+
+          await ref
+              .read(primarySetupProvider.notifier)
+              .setupPrimaryLoginCourse()
+              .then(
+            (value) {
+              if (value.statusCode == 200 || value.statusCode == 201) {
+                print("object");
+                Navigator.pushReplacement(
+                    // ignore: use_build_context_synchronously
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MainPage(),
+                    ));
+              } else {
+                Get.snackbar(value.statusCode.toString(),
+                    value.message?.toString() ?? "network errors");
+              }
+            },
+          );
         } else {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
