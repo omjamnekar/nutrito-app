@@ -32,7 +32,6 @@ class _OpenerCameraState extends State<OpenerCamera> {
                   right: 0,
                   child: GestureDetector(
                     onTap: () {
-                      print("nutrilization");
                       widget.onTapOfnavigation(1);
                     },
                     child: Center(
@@ -50,8 +49,6 @@ class _OpenerCameraState extends State<OpenerCamera> {
                   bottom: 0,
                   child: GestureDetector(
                     onTap: () {
-                      print("compare");
-
                       widget.onTapOfnavigation(2);
                     },
                     child: Center(
@@ -69,8 +66,6 @@ class _OpenerCameraState extends State<OpenerCamera> {
                   bottom: 0,
                   child: GestureDetector(
                     onTap: () {
-                      print("suggestion");
-
                       widget.onTapOfnavigation(3);
                     },
                     child: Center(

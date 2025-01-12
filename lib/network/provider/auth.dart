@@ -19,7 +19,11 @@ class AuthStateManager extends StateNotifier<UserModel> {
           .createUserWithEmailAndPassword(email: email, password: password);
       await userCredential.user!.updateProfile(displayName: name);
 
-      return {"message": email, "state": "success"};
+      return {
+        "message": email,
+        "state": "success",
+        "id": userCredential.user?.uid ?? ""
+      };
     } on FirebaseAuthException catch (e) {
       return {"message": e.message.toString(), "state": "fail"};
     }
@@ -81,18 +85,20 @@ class AuthStateManager extends StateNotifier<UserModel> {
 
   Future<Map<String, dynamic>> signIn(String email, String password) async {
     try {
-      await _firebase
+      return await _firebase
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
         if (value.user != null) {
-          return {"message": "successFull", "state": "success"};
+          return {
+            "id": value.user!.uid ?? "",
+            "email": value.user?.email ?? "",
+            "name": value.user?.displayName ?? "",
+            "message": "successFull",
+            "state": "success"
+          };
         }
+        return {};
       });
-
-      return {
-        "message": "success in Login",
-        "state": "success",
-      };
     } on FirebaseAuthException catch (e) {
       return {"message": e.message.toString(), "state": "fail"};
     }

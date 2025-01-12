@@ -8,6 +8,7 @@ import 'package:nutrito/network/bloc/conn_bloc.dart';
 import 'package:nutrito/network/depandancies.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nutrito/pages/connection/navigator.dart';
+import 'package:nutrito/util/theme/color.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 
@@ -27,19 +28,20 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BlocProvider(
-      create: (context) => ConnBloc()..appStart(),
+    return BlocProvider<ConnBloc>(
+      create: (context) {
+        return ConnBloc()..appStart();
+      },
       child: ProviderScope(
         child: GetMaterialApp(
           title: 'Nutrito-beta',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: ColorManager.bluePrimary),
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,
           home: const NavigatorPage(),
-          // home: const NutrilizationPage(),
-          // home: OrderTrackingPage(),
         ),
       ),
     );

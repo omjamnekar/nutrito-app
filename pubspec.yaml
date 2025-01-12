@@ -58,6 +58,11 @@ dependencies:
   location: ^7.0.1
   flutter_dotenv: ^5.2.1
   hexcolor: ^3.0.1
+  chatview: ^2.4.0
+  flutter_chat_ui: ^1.6.15
+  dio: ^5.7.0
+  pretty_dio_logger: ^1.4.0
+  health: ^9.0.1
 
 dev_dependencies:
   flutter_test:
@@ -102,6 +107,9 @@ flutter:
     - assets/image/settings/set/
     - assets/image/media/
     - assets/image/gen/
+    - assets/image/smartlist/fruits/
+    - assets/image/smartlist/veggies/
+    - assets/image/smartlist/products/
     - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

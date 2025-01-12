@@ -1,5 +1,3 @@
-// lib/models/post.dart
-
 class Post {
   final String userName;
   final String userRole;
