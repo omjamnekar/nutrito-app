@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/data/model/sections/user_state.dart';
 import 'package:nutrito/network/controller/auth.dart';
-import 'package:nutrito/network/provider/primary_Setup.dart';
 import 'package:nutrito/pages/functions/compare.dart';
 import 'package:nutrito/pages/functions/nutrilization.dart';
 import 'package:nutrito/pages/functions/smartList.dart';
@@ -56,7 +54,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     const SocialMediaPage(),
     SettingsPage(),
     ComaparePage(),
-    NutrilizationPage(),
+    NutriStateNavigate(),
     SmartListPage(),
   ];
 
@@ -203,7 +201,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              NutrilizationPage(),
+              NutriStateNavigate(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;

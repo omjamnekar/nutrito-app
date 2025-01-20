@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/data/model/sections/response_State.dart';
 import 'package:nutrito/data/model/sections/settings.dart';
@@ -21,11 +20,11 @@ class PrimarySetupProvider extends StateNotifier<PrimarySetupManager> {
 
   Future<ResponseStatus> setupPrimaryCourse() async {
     RegisterUser authSetupUser = RegisterUser();
-    UserStore _userStore = UserStore();
+    UserStore userStore = UserStore();
     InitialSetup initialSetup = InitialSetup();
 
     ResponseStatus response = await authSetupUser.requestUserRegister(
-        await initialSetup.setupData(await _userStore.loadData()).then(
+        await initialSetup.setupData(await userStore.loadData()).then(
       (value) {
         state = value;
         return state;
@@ -37,10 +36,10 @@ class PrimarySetupProvider extends StateNotifier<PrimarySetupManager> {
 
   Future<ResponseStatus> setupPrimaryLoginCourse() async {
     RegisterUser authSetupUser = RegisterUser();
-    UserStore _userStore = UserStore();
+    UserStore userStore = UserStore();
 
     return await authSetupUser
-        .requestUserLogin(await _userStore.loadData())
+        .requestUserLogin(await userStore.loadData())
         .then(
       (responseData) {
 // call primarySetup and held data in state for w hole session

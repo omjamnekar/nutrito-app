@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrito/util/data/settings.dart';
-import 'package:nutrito/util/extensions/extensions.dart';
 
 class SecondSection extends ConsumerStatefulWidget {
   const SecondSection({super.key});

@@ -1,10 +1,17 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nutrito/data/model/gen/smart/com_smart.dart';
+import 'package:nutrito/data/model/gen/smart/shopping.dart';
+import 'package:nutrito/data/storage/smart.dart';
+import 'package:nutrito/network/provider/smartList.dart';
 import 'package:nutrito/pages/functions/components/genChat.dart';
 import 'package:nutrito/pages/functions/components/product_card.dart';
-import 'package:nutrito/util/data/image_data.dart';
+import 'package:nutrito/pages/functions/display/shopping_list.dart';
+import 'package:nutrito/util/data/fruit_image.dart';
 import 'package:nutrito/util/data/product_image.dart';
 import 'package:nutrito/util/data/veggie_image.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
@@ -24,15 +31,17 @@ class _SuggestionPageState extends State<SmartListPage> {
   }
 }
 
-class ShoppingListScreen extends StatefulWidget {
+class ShoppingListScreen extends ConsumerStatefulWidget {
+  const ShoppingListScreen({super.key});
+
   @override
-  State<ShoppingListScreen> createState() => _ShoppingListScreenState();
+  ConsumerState<ShoppingListScreen> createState() => _ShoppingListScreenState();
 }
 
-class _ShoppingListScreenState extends State<ShoppingListScreen>
+class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   bool closeBottomSearchBar = false;
   bool isSearched = false;
@@ -52,7 +61,19 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingListPage(),
+                    ));
+              },
+              icon: Icon(Icons.shopping_cart))
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -80,7 +101,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 1150,
               child: TabBarView(
                 controller: _tabController,
@@ -116,7 +137,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
               ),
             ),
             Gap(10),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: allItems.length * 70 + 10,
               child: ListView.builder(
@@ -124,11 +145,11 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: allItems.length,
                 itemBuilder: (context, index) {
-                  return Container(
+                  return SizedBox(
                     height: 70,
                     child: ListTile(
-                      leading: Image.asset(allItems[index]["imageurl"]),
-                      title: Text(allItems[index]["name"]),
+                      leading: Image.asset(allItems[index].imageUrl!),
+                      title: Text(allItems[index].name!),
                       trailing: IconButton(
                         onPressed: () {
                           _selectedAddOperation(index);
@@ -148,7 +169,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
           ? showBottomAddOption
               ? Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 210,
+                  height: 230,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 101, 255, 224),
                     borderRadius: BorderRadius.only(
@@ -177,34 +198,102 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
                         ),
                         ListTile(
                           leading:
-                              Image.asset(allItems[selectedIndex]["imageurl"]),
+                              Image.asset(allItems[selectedIndex].imageUrl!),
                           title: Text(
-                            allItems[selectedIndex]["name"],
+                            allItems[selectedIndex].name!,
                             style: GoogleFonts.poppins(
                               fontSize: 25,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            allItems[selectedIndex]["description"],
+                            allItems[selectedIndex].description!,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.black87,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Add To List",
-                              style: GoogleFonts.poppins(color: Colors.white),
+                        Gap(10),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black87,
+                                    style: BorderStyle.solid,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    final state = ref.watch(cartlistPovider);
+                                    if (!state.any(
+                                      (e) =>
+                                          e.name ==
+                                          allItems[selectedIndex].name,
+                                    )) {
+                                      // Add the item to the cart if it doesn't exist
+                                      ref
+                                          .read(cartlistPovider.notifier)
+                                          .setState(allItems[selectedIndex]);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "item is already there in cart")));
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Text(
+                                    "Add To OptionList",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            Gap(10),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    final state = ref.watch(smartlistProvider);
+                                    if (!state.any(
+                                      (e) =>
+                                          e.name ==
+                                          allItems[selectedIndex].name,
+                                    )) {
+                                      ref
+                                          .read(smartlistProvider.notifier)
+                                          .setState(allItems[selectedIndex]);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "item is already there in smart list")));
+                                    }
+
+                                    setState(() {});
+                                  },
+                                  child: Text(
+                                    "Add To SmartList",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       ],
                     ),
@@ -244,37 +333,15 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
                                     return ListTile(
                                       style: ListTileStyle.list,
                                       leading: Image.asset(
-                                        shoppingItems[index]["imageurl"],
+                                        shoppingItems[index].imageUrl!,
                                         width: 30,
                                         height: 30,
                                       ),
-                                      title: Text(shoppingItems[index]["name"]),
-                                      trailing: Container(
+                                      title: Text(shoppingItems[index].name!),
+                                      trailing: SizedBox(
                                         width: 180,
                                         child: Row(
                                           children: [
-                                            IconButton(
-                                              icon: Icon(Icons.remove),
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (quantity > 1) {
-                                                    quantity--;
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                            Text(
-                                              quantity.toString(),
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.add),
-                                              onPressed: () {
-                                                setState(() {
-                                                  quantity++;
-                                                });
-                                              },
-                                            ),
                                             Gap(20),
                                             IconButton(
                                               onPressed: () {},
@@ -341,7 +408,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
     );
   }
 
-  List<Map<String, dynamic>> allItems = [];
+  List<ShoppingItemManager> allItems = [];
   bool showBottomAddOption = false;
   int selectedIndex = 0;
   _selectedAddOperation(int index) {
@@ -353,18 +420,30 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
 
   _initLoadData() {
     allItems.clear();
-    allItems.addAll(veggies);
-    allItems.addAll(fruits);
-    allItems.addAll(products);
+    allItems.addAll(veggies
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
+    allItems.addAll(fruits
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
+    allItems.addAll(products
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
     allItems.shuffle();
   }
 
-  List<Map<String, dynamic>> shoppingItems = [];
+  List<ShoppingItemManager> shoppingItems = [];
 
   void _onSearchTextChange(String name) {
     final selectedData = allItems
-        .where((e) =>
-            e["name"].toString().toLowerCase().contains(name.toLowerCase()))
+        .where(
+            (e) => e.name.toString().toLowerCase().contains(name.toLowerCase()))
         .toList();
 
     setState(() {
@@ -373,24 +452,55 @@ class _ShoppingListScreenState extends State<ShoppingListScreen>
   }
 }
 
-class SmartShoppingSection extends StatefulWidget {
+class SmartShoppingSection extends ConsumerStatefulWidget {
   Function(bool) isGenOpen;
   SmartShoppingSection({super.key, required this.isGenOpen});
 
   @override
-  State<SmartShoppingSection> createState() => _SmartShoppingSectionState();
+  ConsumerState<SmartShoppingSection> createState() =>
+      _SmartShoppingSectionState();
 }
 
-class _SmartShoppingSectionState extends State<SmartShoppingSection> {
-  final List<Map<String, dynamic>> shoppingItems = fruits;
+class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
   String selectedData = "Shopping List";
-  TextEditingController _chatController = TextEditingController();
+  final TextEditingController _chatController = TextEditingController();
   bool isGenSelected = false;
   bool isGenProcessing = false;
+  List<ShoppingItemManager> allItems = [];
+  List<ShoppingItemManager> smartItems = [];
+
+  List<ShoppingItemManager> cartItems = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // fruits
+    //veggies
+    //products
+    allItems.addAll(fruits
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
+    allItems.addAll(veggies
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
+    allItems.addAll(products
+        .map(
+          (e) => ShoppingItemManager.fromJson(e),
+        )
+        .toList());
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> _genShowData = [
+    final smartItems = ref.watch(smartlistProvider);
+    final cartItems = ref.watch(cartlistPovider);
+
+    List<Map<String, dynamic>> genShowData = [
       {
         "icon": Icon(
           Icons.lightbulb,
@@ -424,6 +534,8 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
         "description": "Buy Groceries",
       }
     ];
+
+    print(smartItems);
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -431,7 +543,7 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
           children: [
             //selected Items
 
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 50,
               child: Row(
@@ -473,7 +585,9 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
                           )),
                       Gap(10),
                       TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            _openCalender();
+                          },
                           icon: Icon(
                             Icons.edit_calendar_outlined,
                             size: 25,
@@ -485,26 +599,34 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
               ),
             ),
 
-            Container(
+            SizedBox(
               height: 450,
               child: !isGenSelected
-                  ? GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: 9,
-                      itemBuilder: (context, index) {
-                        return ShoppingItemCard(
-                          asset: shoppingItems[index]["imageurl"]!,
-                          name: shoppingItems[index]['name']!,
-                          quantity: "1kg",
-                        );
-                      },
-                    )
+                  ? smartItems.isNotEmpty
+                      ? Container(
+                          color: const Color.fromARGB(47, 192, 208, 194),
+                          child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemCount: smartItems.length,
+                            itemBuilder: (context, index) {
+                              final item = smartItems[index];
+
+                              return ShoppingItemCard(
+                                asset: item.imageUrl!,
+                                name: item.name!,
+                                quantity: "1kg",
+                              );
+                            },
+                          ),
+                        )
+                      : NoItemSelected()
                   : Container(
                       margin: EdgeInsets.only(bottom: 10),
                       padding: EdgeInsets.all(6),
@@ -514,129 +636,60 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
                           color: Colors.black87,
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                              flex: 9,
-                              child: !isGenProcessing
-                                  ? Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                251, 217, 255, 248),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color:
-                                                    ColorManager.bluePrimary),
-                                          ),
-                                          child: GridView.builder(
-                                            itemCount: 4,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 2,
-                                              crossAxisSpacing: 2,
+                      child: Flexible(
+                          flex: 9,
+                          child: !isGenProcessing
+                              ? Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            251, 217, 255, 248),
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: ColorManager.bluePrimary),
+                                      ),
+                                      child: GridView.builder(
+                                        itemCount: 4,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 2,
+                                          crossAxisSpacing: 2,
+                                        ),
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            height: 10,
+                                            width: 100,
+                                            margin: EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.black87,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                height: 10,
-                                                width: 100,
-                                                margin: EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black87,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: ListTile(
-                                                  leading: _genShowData[index]
-                                                      ["icon"],
-                                                  title: Text(
-                                                      _genShowData[index]
-                                                          ["description"]),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        Container(
-                                          child: TextButton(
-                                            onPressed: () {},
-                                            child: Text("Start"),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : ChatSection()),
-
-                          //  Flexible(
-                          //     flex: 1,
-                          //     child: Container(
-                          //       width: 400,
-                          //       child: Row(
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceBetween,
-                          //         children: [
-                          //           Flexible(
-                          //             flex: 9,
-                          //             child: TextFormField(
-                          //               controller: _chatController,
-                          //               onTap: () {
-                          //                 widget.isGenOpen(true);
-                          //               },
-                          //               onSaved: (newValue) {
-                          //                 widget.isGenOpen(false);
-                          //               },
-                          //               onTapOutside: (event) {
-                          //                 widget.isGenOpen(false);
-                          //               },
-                          //               onFieldSubmitted: (value) =>
-                          //                   widget.isGenOpen(false),
-                          //               decoration: InputDecoration(
-                          //                 hintText: "Message Gen",
-                          //                 border: OutlineInputBorder(
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(10),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           Flexible(
-                          //             flex: 4,
-                          //             child: Container(
-                          //               decoration: BoxDecoration(
-                          //                 color: Colors.amber,
-                          //                 borderRadius: BorderRadius.circular(10),
-                          //               ),
-                          //               child: TextButton.icon(
-                          //                 iconAlignment: IconAlignment.start,
-                          //                 icon: isGenSelected
-                          //                     ? Icon(Icons.arrow_outward)
-                          //                     : Icon(Icons.star),
-                          //                 onPressed: () {
-                          //                   setState(() {
-                          //                     isGenProcessing = true;
-                          //                   });
-                          //                 },
-                          //                 style: ButtonStyle(),
-                          //                 label: Text(
-                          //                     !isGenSelected ? "Generate" : ""),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ),
-                        ],
-                      ),
+                                            child: ListTile(
+                                              leading: genShowData[index]
+                                                  ["icon"],
+                                              title: Text(genShowData[index]
+                                                  ["description"]),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text("Start"),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : ChatSection()),
                     ),
             ),
 
@@ -648,7 +701,7 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () => setShoppingList(smartItems, cartItems),
                 child: Text(
                   "Set Shopping List",
                   style: GoogleFonts.poppins(
@@ -668,36 +721,299 @@ class _SmartShoppingSectionState extends State<SmartShoppingSection> {
                   Icon(Icons.keyboard_arrow_down_rounded),
                   Spacer(),
                   IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.delete_outline,
-                        size: 25,
-                        color: const Color.fromARGB(221, 122, 121, 121),
-                      ))
+                    onPressed: () {
+                      setState(() {
+                        isRemoveOn = !isRemoveOn;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.delete_outline,
+                      size: 25,
+                      color: const Color.fromARGB(221, 122, 121, 121),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 500,
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: 9,
-                itemBuilder: (context, index) {
-                  return ShoppingItemCard(
-                    asset: veggies[index]["imageurl"]!,
-                    name: veggies[index]['name']!,
-                    quantity: "1kg",
-                  );
-                },
-              ),
+              child: cartItems.isNotEmpty
+                  ? Container(
+                      color: const Color.fromARGB(47, 192, 208, 194),
+                      child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item = cartItems[index];
+
+                          return GestureDetector(
+                            onTap: () =>
+                                isRemoveOn ? null : _setDialogBox(item),
+                            child: Stack(
+                              children: [
+                                Center(
+                                  child: ShoppingItemCard(
+                                    asset: item.imageUrl!,
+                                    name: item.name!,
+                                    quantity: "1kg",
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: isRemoveOn,
+                                  child: GestureDetector(
+                                    onTap: () => removeCartItem(item.name!),
+                                    child: Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Icon(
+                                        Icons.remove_circle_rounded,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : NoItemSelected(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  bool isRemoveOn = false;
+
+  _openCalender() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    ).then((selectedDate) {
+      if (selectedDate != null) {
+        // Handle the selected date
+        print("Selected date: $selectedDate");
+      }
+    });
+  }
+
+  void setShoppingList(List<ShoppingItemManager> smartItems,
+      List<ShoppingItemManager> cartItems) {
+    SmartShoppingListPreferences shoppingListPreferences =
+        SmartShoppingListPreferences();
+    DateTime seletedTime = DateTime.now();
+
+    String title = "";
+    String description = "";
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Set Shopping List"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Title",
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    title = value;
+                  });
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Description",
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    description = value;
+                  });
+                },
+              ),
+              Row(
+                children: [
+                  Text("Date: "),
+                  TextButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      ).then((selectedDate) {
+                        if (selectedDate != null) {
+                          setState(() {
+                            seletedTime = selectedDate;
+                          });
+                        }
+                      });
+                    },
+                    child: StatefulBuilder(
+                      builder: (context, setState) {
+                        return Text(
+                          "${seletedTime.toLocal()}".split(' ')[0],
+                        );
+                      },
+                    ),
+                  ),
+                  Text("Time: "),
+                  TextButton(
+                    onPressed: () {
+                      showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      ).then((selectedTime) {
+                        if (selectedTime != null) {
+                          setState(() {
+                            seletedTime = DateTime(
+                              seletedTime.year,
+                              seletedTime.month,
+                              seletedTime.day,
+                              selectedTime.hour,
+                              selectedTime.minute,
+                            );
+                          });
+                        }
+                      });
+                    },
+                    child: StatefulBuilder(
+                      builder: (context, setState) {
+                        return Text(
+                          "${seletedTime.hour}:${seletedTime.minute}",
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (title.isEmpty ||
+                    description.isEmpty ||
+                    smartItems.isEmpty) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Set Data in Fields")));
+                  return;
+                }
+                SmartShoppingListManager smartShoppingListManager =
+                    SmartShoppingListManager(
+                  title: title,
+                  description: description,
+                  smartItems: smartItems,
+                  cartItems: cartItems,
+                  timestamp: Timestamp.now(),
+                  setTime: Timestamp.fromDate(seletedTime),
+                );
+
+                print(ComSmartList(
+                        smartShoppingListManager: [smartShoppingListManager])
+                    .toJsonString());
+
+                await shoppingListPreferences.setData(ComSmartList(
+                    smartShoppingListManager: [smartShoppingListManager]));
+                Navigator.of(context).pop();
+              },
+              child: Text("Save"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void removeCartItem(String name) {
+    ref.read(cartlistPovider.notifier).popItemState(name);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("${name} has benn removed")));
+  }
+
+  void _setDialogBox(ShoppingItemManager item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: Image.asset(
+            item.imageUrl!,
+            width: 50,
+            height: 50,
+          ),
+          title: Text(item.name!),
+          content: Text("do you want to add this item in Smart List"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Close"),
+            ),
+            TextButton(
+              onPressed: () {
+                ref.read(smartlistProvider.notifier).setState(item);
+                ref.read(cartlistPovider.notifier).popItemState(item.name!);
+                setState(() {});
+                Navigator.pop(context);
+              },
+              child: Text("Add"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class NoItemSelected extends StatelessWidget {
+  const NoItemSelected({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: const Color.fromARGB(221, 67, 67, 67),
+        ),
+      ),
+      child: Center(
+        child: AnimatedTextKit(
+          animatedTexts: [
+            TypewriterAnimatedText(
+              'No Item is Selected',
+              textStyle: TextStyle(
+                fontSize: 15.0,
+                color: Colors.black,
+              ),
+              speed: Duration(milliseconds: 100),
+            ),
+          ],
+          totalRepeatCount: 1,
         ),
       ),
     );

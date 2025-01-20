@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
-import 'package:nutrito/util/theme/color.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatSection extends StatefulWidget {

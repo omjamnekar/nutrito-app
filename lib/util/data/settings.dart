@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';
