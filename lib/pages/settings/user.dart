@@ -11,7 +11,7 @@ import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage();
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -21,7 +21,7 @@ class _SettingsPageState extends State<SettingsPage>
     with SingleTickerProviderStateMixin {
   bool isFilled = false;
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage>
                       child: TextFormField(
                         controller: _searchController,
                         onChanged: (value) {
-                          if (value == null || value.isNotEmpty) {
+                          if (value.isNotEmpty) {
                             setState(() {
                               isFilled = true;
                             });
@@ -88,8 +88,7 @@ class _SettingsPageState extends State<SettingsPage>
                           }
                         },
                         onTap: () {
-                          if (_searchController.text == null ||
-                              _searchController.text.isEmpty) {
+                          if (_searchController.text.isEmpty) {
                             setState(() {
                               isFilled = false;
                             });
@@ -183,37 +182,33 @@ class SearchedData extends StatefulWidget {
 class _SearchedDataState extends State<SearchedData> {
   @override
   Widget build(BuildContext context) {
-    if (widget.searchData == null) {
-      return Container();
-    } else {
-      // print(widget.searchData);
-      final filteredData = settingSearchData
-          .where((element) => element['name']
-              .toString()
-              .toLowerCase()
-              .contains(widget.searchData.toLowerCase()))
-          .toList();
-      return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 1000,
-        child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 30),
-          itemCount: filteredData.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(filteredData[index]['name']).withStyle(),
-              leading: filteredData[index]["icon"],
-            );
-          },
-        ),
-      );
+    // print(widget.searchData);
+    final filteredData = settingSearchData
+        .where((element) => element['name']
+            .toString()
+            .toLowerCase()
+            .contains(widget.searchData.toLowerCase()))
+        .toList();
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 1000,
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(bottom: 30),
+        itemCount: filteredData.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(filteredData[index]['name']).withStyle(),
+            leading: filteredData[index]["icon"],
+          );
+        },
+      ),
+    );
     }
-  }
 }
 
 class UserSpaceSection extends StatefulWidget {
-  UserSpaceSection({super.key});
+  const UserSpaceSection({super.key});
   @override
   State<UserSpaceSection> createState() => _UserSpaceSectionState();
 }

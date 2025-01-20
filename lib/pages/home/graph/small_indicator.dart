@@ -4,7 +4,7 @@ import 'dart:math';
 class WaterAnimation extends StatefulWidget {
   final double percentage; // New percentage parameter
   final double ml;
-  WaterAnimation({required this.percentage, required this.ml});
+  const WaterAnimation({super.key, required this.percentage, required this.ml});
 
   @override
   _WaterAnimationState createState() => _WaterAnimationState();

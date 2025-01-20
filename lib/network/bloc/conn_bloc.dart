@@ -17,7 +17,7 @@ class ConnBloc extends Cubit<ConnState> {
     }
   }
 
-  Future<void> changeToBoarding() async {
-    emit(BoardingState());
-  }
+  // Future<void> changeToBoarding() async {
+  //   emit(BoardingState());
+  // }
 }

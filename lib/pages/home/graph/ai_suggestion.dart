@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class AiSuggestion extends StatefulWidget {
+  const AiSuggestion({super.key});
+
   @override
   _AiSuggestionState createState() => _AiSuggestionState();
 }
 
 class _AiSuggestionState extends State<AiSuggestion> {
   String _displayedText = "";
-  String _fullText =
+  final String _fullText =
       "Your health is your greatest wealth, and we're here to help you make smarter choices every day.";
   int _currentIndex = 0;
   bool _isLoading = true;

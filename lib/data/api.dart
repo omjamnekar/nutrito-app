@@ -31,11 +31,11 @@ class BaseHttpCall {
 }
 
 class GenApi {
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
 
   Dio get sendRequest => _dio;
 
-  GenApi(String email, String password) {
+  GenApi() {
     try {
       _dio.options.baseUrl = dotenv.env["PYTHONVERCEL"] ?? "";
     } on DioException catch (e) {

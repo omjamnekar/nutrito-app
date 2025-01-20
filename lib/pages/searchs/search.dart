@@ -14,7 +14,7 @@ class _SearchPageState extends State<SearchPage> {
   final _globalKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
   String _selectedCategory = "Vitamins"; // Default category
-  List<String> _categories = [
+  final List<String> _categories = [
     "Vitamins",
     "Minerals",
     "Nutrients",

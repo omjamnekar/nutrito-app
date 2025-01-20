@@ -5,12 +5,16 @@ class ShoppingItemCard extends StatelessWidget {
   final String asset;
   final String quantity;
 
-  ShoppingItemCard(
-      {required this.name, required this.asset, required this.quantity});
+  const ShoppingItemCard(
+      {super.key,
+      required this.name,
+      required this.asset,
+      required this.quantity});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.maxFinite,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 192, 255, 197),
         borderRadius: BorderRadius.circular(10),

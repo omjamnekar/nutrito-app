@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/pages/home/graph/small_indicator.dart';
-import 'package:nutrito/pages/home/graph/vit_min.dart';
 import 'package:nutrito/pages/settings/components/graphs/circle_graph.dart';
 import 'package:nutrito/pages/settings/components/graphs/linear.dart';
 import 'package:nutrito/util/theme/color.dart';
