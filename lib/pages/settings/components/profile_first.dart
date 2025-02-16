@@ -87,7 +87,8 @@ class _SectionFirstState extends State<SectionFirst> {
                             child: SizedBox(
                                 width: 140,
                                 height: 140,
-                                child: HealthScoreGraph(percentage: 20)),
+                                child: HealthScoreGraph(
+                                    title: "Health Score", percentage: 20)),
                           )
                         ],
                       ),

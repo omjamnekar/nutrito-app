@@ -188,7 +188,8 @@ class MainGraphSection extends StatelessWidget {
                               SizedBox(
                                   width: 110,
                                   height: 110,
-                                  child: HealthScoreGraph(percentage: 20)),
+                                  child: HealthScoreGraph(
+                                      title: "Health Score", percentage: 20)),
                               Gap(30),
                               HydrationIndicator(
                                 waterLevel: 0.5,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/data/model/sections/user_State.dart';
 import 'package:nutrito/pages/settings/components/goal.dart';
 import 'package:nutrito/pages/settings/components/profile.dart';
 import 'package:nutrito/pages/settings/components/scanner.dart';
@@ -189,7 +188,7 @@ class _SearchedDataState extends State<SearchedData> {
             .toLowerCase()
             .contains(widget.searchData.toLowerCase()))
         .toList();
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 1000,
       child: ListView.builder(
@@ -204,7 +203,7 @@ class _SearchedDataState extends State<SearchedData> {
         },
       ),
     );
-    }
+  }
 }
 
 class UserSpaceSection extends StatefulWidget {

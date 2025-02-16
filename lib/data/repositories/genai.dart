@@ -34,6 +34,7 @@ class GenaiCall {
       return InitialPromptManager.fromJson(response.data);
       // initial
     } on DioException catch (e) {
+      print(e.message.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

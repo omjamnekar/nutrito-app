@@ -3,8 +3,9 @@ import 'package:nutrito/util/theme/color.dart';
 
 class HealthScoreGraph extends StatelessWidget {
   final double percentage; // Value between 0 and 100
-
-  const HealthScoreGraph({super.key, required this.percentage});
+  final String title;
+  const HealthScoreGraph(
+      {super.key, required this.percentage, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class HealthScoreGraph extends StatelessWidget {
         painter: CircularGraphPainter(percentage),
         child: Center(
           child: Text(
-            '${percentage.toInt()}%\nhealth score',
+            '${percentage.toInt()}%\n$title',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.grey,
