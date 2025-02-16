@@ -9,8 +9,10 @@ import 'package:nutrito/data/model/gen/compare/compare.dart';
 import 'package:nutrito/data/model/gen/conclusion_pr.dart';
 import 'package:nutrito/data/model/gen/health_pr.dart';
 import 'package:nutrito/data/model/gen/initial_pr.dart';
+import 'package:nutrito/data/model/gen/nutri_com_state.dart';
 import 'package:nutrito/data/model/gen/ratio_pr.dart';
 import 'package:nutrito/data/repositories/genai.dart';
+import 'package:nutrito/data/storage/nutri.dart';
 import 'package:nutrito/data/storage/user_Data.dart';
 import 'package:nutrito/network/bloc/nutri_bloc.dart';
 import 'package:nutrito/network/provider/compare.dart';
@@ -49,10 +51,22 @@ class GenController extends GetxController {
       List<Object?> results;
       try {
         results = await Future.wait([
-          gencall.initialPrompt(),
-          gencall.healthPrompt(),
-          gencall.ratioPrompt(),
-          gencall.conclusionPrompt(),
+          gencall.initialPrompt().catchError((e) {
+            print("Error in initialPrompt: $e");
+            return null;
+          }),
+          gencall.healthPrompt().catchError((e) {
+            print("Error in healthPrompt: $e");
+            return null;
+          }),
+          gencall.ratioPrompt().catchError((e) {
+            print("Error in ratioPrompt: $e");
+            return null;
+          }),
+          gencall.conclusionPrompt().catchError((e) {
+            print("Error in conclusionPrompt: $e");
+            return null;
+          }),
         ]);
       } catch (e, stackTrace) {
         print("Error in Future.wait: $e");
@@ -148,9 +162,17 @@ class GenController extends GetxController {
         },
         SetOptions(merge: true),
       );
-      navigate(context);
+      navigate(context, file);
+
+      NutriPreference nutriPreference = NutriPreference();
+      await nutriPreference.nutristore(NutriComState(
+          genNutrilizationResponse: obxDataManager.value,
+          fileImage: file,
+          timestamp: Timestamp.now()));
+
+      final sd = await nutriPreference.getNutriData();
+      print(sd.first.id);
     }
-    print("work is done");
   }
 
   Future<void> nutriToOutput(
@@ -173,7 +195,7 @@ class GenController extends GetxController {
     }
   }
 
-  void navigate(BuildContext context) {
+  void navigate(BuildContext context, File image) {
     Navigator.pop(context);
     Navigator.push(
         context,
@@ -195,10 +217,13 @@ class GenController extends GetxController {
           ));
 
       final result = await genaiCall.compareProduct();
+      result?.file1 = file;
+      result?.file2 = file2;
+
       if (result != null && result.compareProducts != null) {
-        print(result.compareProducts?.toJson().toString() ?? "");
-        CompareManager response =
-            result as CompareManager? ?? CompareManager(compareProducts: null);
+        //  print(result.compareProducts?.toJson().toString() ?? "");
+        CompareManager response = result as CompareManager? ??
+            CompareManager(compareProducts: null, file1: null, file2: null);
 
         ref
             .watch(compareCurrntProvider.notifier)
@@ -206,10 +231,11 @@ class GenController extends GetxController {
 
         Navigator.pop(context);
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ComOutPage(),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ComOutPage(),
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Failed to retrieve compare data.")),

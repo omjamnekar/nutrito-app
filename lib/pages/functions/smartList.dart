@@ -500,42 +500,6 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
     final smartItems = ref.watch(smartlistProvider);
     final cartItems = ref.watch(cartlistPovider);
 
-    List<Map<String, dynamic>> genShowData = [
-      {
-        "icon": Icon(
-          Icons.lightbulb,
-          size: 30,
-          color: const Color.fromARGB(164, 0, 221, 181),
-        ),
-        "description": "Make Plans",
-      },
-      {
-        "icon": Icon(
-          Icons.groups_3_outlined,
-          size: 30,
-          color: const Color.fromARGB(164, 0, 221, 181),
-        ),
-        "description": "get Guide"
-      },
-      {
-        "icon": Icon(
-          Icons.summarize,
-          size: 30,
-          color: const Color.fromARGB(164, 0, 221, 181),
-        ),
-        "description": "summarize list",
-      },
-      {
-        "icon": Icon(
-          Icons.shopping_bag,
-          size: 30,
-          color: const Color.fromARGB(164, 0, 221, 181),
-        ),
-        "description": "Buy Groceries",
-      }
-    ];
-
-    print(smartItems);
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -627,70 +591,7 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
                           ),
                         )
                       : NoItemSelected()
-                  : Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.black87,
-                        ),
-                      ),
-                      child: Flexible(
-                          flex: 9,
-                          child: !isGenProcessing
-                              ? Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            251, 217, 255, 248),
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: ColorManager.bluePrimary),
-                                      ),
-                                      child: GridView.builder(
-                                        itemCount: 4,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 2,
-                                          crossAxisSpacing: 2,
-                                        ),
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            height: 10,
-                                            width: 100,
-                                            margin: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.black87,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: ListTile(
-                                              leading: genShowData[index]
-                                                  ["icon"],
-                                              title: Text(genShowData[index]
-                                                  ["description"]),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: Text("Start"),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : ChatSection()),
-                    ),
+                  : GenSection(),
             ),
 
             Container(
@@ -948,7 +849,7 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
   void removeCartItem(String name) {
     ref.read(cartlistPovider.notifier).popItemState(name);
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("${name} has benn removed")));
+        .showSnackBar(SnackBar(content: Text("$name has benn removed")));
   }
 
   void _setDialogBox(ShoppingItemManager item) {
@@ -1019,3 +920,146 @@ class NoItemSelected extends StatelessWidget {
     );
   }
 }
+
+class GenSection extends StatefulWidget {
+  const GenSection({super.key});
+
+  @override
+  State<GenSection> createState() => _GenSectionState();
+}
+
+class _GenSectionState extends State<GenSection> {
+  bool isGenProcessing = false;
+  List<Map<String, dynamic>> genShowData = [
+    {
+      "icon": Icon(
+        Icons.lightbulb,
+        size: 30,
+        color: const Color.fromARGB(164, 0, 221, 181),
+      ),
+      "description": "Make Plans",
+    },
+    {
+      "icon": Icon(
+        Icons.groups_3_outlined,
+        size: 30,
+        color: const Color.fromARGB(164, 0, 221, 181),
+      ),
+      "description": "get Guide"
+    },
+    {
+      "icon": Icon(
+        Icons.summarize,
+        size: 30,
+        color: const Color.fromARGB(164, 0, 221, 181),
+      ),
+      "description": "summarize list",
+    },
+    {
+      "icon": Icon(
+        Icons.shopping_bag,
+        size: 30,
+        color: const Color.fromARGB(164, 0, 221, 181),
+      ),
+      "description": "Buy Groceries",
+    }
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.black87,
+        ),
+      ),
+      child: Flexible(
+        flex: 9,
+        child: isGenProcessing
+            ? Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(251, 217, 255, 248),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: ColorManager.bluePrimary),
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: GridView.builder(
+                        itemCount: 4,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 2,
+                          crossAxisSpacing: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 10,
+                            width: 100,
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black87,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: ListTile(
+                              leading: genShowData[index]["icon"],
+                              title: Text(genShowData[index]["description"]),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(237, 17, 17, 17),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextButton.icon(
+                        iconAlignment: IconAlignment.end,
+                        icon: Icon(
+                          Icons.assistant_sharp,
+                          color: ColorManager.bluePrimary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isGenProcessing = !isGenProcessing;
+                          });
+                        },
+                        label: Text(
+                          "Start Now",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : ChatSection(),
+      ),
+    );
+  }
+}
+
+class CloseBottomSearch extends StateNotifier<bool> {
+  CloseBottomSearch() : super(false);
+
+  void stateChange(bool naturalstate) {
+    state = naturalstate;
+  }
+}
+
+final closeBottomSearch = StateNotifierProvider<CloseBottomSearch, bool>(
+  (ref) {
+    return CloseBottomSearch();
+  },
+);

@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nutrito/data/model/gen/com.dart';
+import 'package:nutrito/data/model/gen/nutri_com_state.dart';
+import 'package:nutrito/data/storage/nutri.dart';
 import 'package:nutrito/network/controller/auth.dart';
+import 'package:nutrito/network/provider/nutrilization.dart';
+import 'package:nutrito/pages/functions/alternative.dart';
 import 'package:nutrito/pages/functions/compare.dart';
+import 'package:nutrito/pages/functions/display/alternative/alternative_image.dart';
+import 'package:nutrito/pages/functions/display/nutri_out%20history.dart';
 import 'package:nutrito/pages/functions/nutrilization.dart';
 import 'package:nutrito/pages/functions/smartList.dart';
 import 'package:nutrito/pages/home/components/drawer.dart';
@@ -74,6 +83,26 @@ class _MainPageState extends ConsumerState<MainPage> {
         ),
 
         actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AlternativePage(),
+                  ));
+            },
+            child: Row(
+              children: [
+                Text(
+                  "Alter",
+                  style: GoogleFonts.poppins(fontSize: 15),
+                ),
+                Gap(5),
+                Icon(Icons.change_circle_outlined),
+              ],
+            ),
+          ),
+          Gap(20),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -266,15 +295,39 @@ class _MainPageState extends ConsumerState<MainPage> {
   }
 }
 
-class ScanHistory extends StatelessWidget {
+class ScanHistory extends StatefulWidget {
   final Function() oncencel;
   final List<String> scannedProducts; // List of scanned product names
 
-  const ScanHistory({
+  ScanHistory({
     super.key,
     required this.oncencel,
     required this.scannedProducts, // Add the list as a parameter
   });
+
+  @override
+  State<ScanHistory> createState() => _ScanHistoryState();
+}
+
+class _ScanHistoryState extends State<ScanHistory> {
+  NutriPreference nutriPreference = NutriPreference();
+
+  List<NutriComState> data = [];
+
+  Future<void> setup() async {
+    final dataitem = await nutriPreference.getNutriData();
+
+    setState(() {
+      data = dataitem;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setup();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +354,7 @@ class ScanHistory extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              onPressed: oncencel,
+              onPressed: widget.oncencel,
               icon: const Icon(
                 Icons.cancel_outlined,
                 color: Colors.black87,
@@ -316,37 +369,70 @@ class ScanHistory extends StatelessWidget {
           ),
           // Add a ListView to display the history
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
+            child: FutureBuilder(
+                future: Future.value(data),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+//                      reverse: true,
+                      itemCount: snapshot.data?.length ??
+                          0, // Number of items in the list
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ListTile(
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                snapshot.data?[index].fileImage ?? File(""),
+                                fit: BoxFit.cover,
+                                width: 80,
+                                height: 100,
+                              ),
+                            ),
+                            subtitle: Text(snapshot
+                                    .data?[index]
+                                    .genNutrilizationResponse
+                                    ?.conclusionPromptManger
+                                    ?.conclusionData
+                                    ?.recommendations ??
+                                ""), // Display each scanned product
 
-              itemCount: scannedProducts.length, // Number of items in the list
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        "https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg",
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: 100,
-                      ),
-                    ),
-                    title: Text(
-                        scannedProducts[index]), // Display each scanned product
-
-                    subtitle: Text("product descriptions"),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.label_important_sharp),
-                      onPressed: () {
-                        // Handle delete action if needed
+                            title: Text(
+                              snapshot
+                                      .data?[index]
+                                      .genNutrilizationResponse
+                                      ?.initialPromptManager
+                                      ?.initialData
+                                      ?.name ??
+                                  "",
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.label_important_sharp),
+                              onPressed: () {
+                                // Handle delete action if needed
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NutriOutPageHistory(
+                                          nutristate: snapshot.data![index]),
+                                    ));
+                              },
+                            ),
+                          ),
+                        );
                       },
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }),
           ),
         ],
       ),

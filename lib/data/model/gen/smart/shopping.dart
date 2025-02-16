@@ -3,8 +3,9 @@ class ShoppingItemManager {
   String? imageUrl;
   double? healthRate;
   String? description;
-  List<String>? benefits;
 
+  List<String>? benefits;
+  bool? isChecked;
   // Constructor
   ShoppingItemManager({
     this.name,
@@ -12,6 +13,7 @@ class ShoppingItemManager {
     this.healthRate,
     this.description,
     this.benefits,
+    this.isChecked,
   });
 
   // Named constructor to create an instance from JSON
@@ -21,6 +23,7 @@ class ShoppingItemManager {
     healthRate = json['healthRate'] ?? "";
     description = json['description'] ?? "";
     benefits = List<String>.from(json['benefits'] ?? []);
+    isChecked = json["isChecked"] == "true" ? true : false;
   }
 
   // Method to convert the instance to JSON
@@ -31,6 +34,7 @@ class ShoppingItemManager {
     data['healthRate'] = healthRate;
     data['description'] = description;
     data['benefits'] = benefits;
+    data['isChecked'] = isChecked;
     return data;
   }
 }

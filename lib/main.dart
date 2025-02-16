@@ -8,6 +8,7 @@ import 'package:nutrito/network/bloc/nutri_bloc.dart';
 import 'package:nutrito/network/depandancies.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nutrito/pages/connection/navigator.dart';
+import 'package:nutrito/pages/functions/alternative.dart';
 import 'package:nutrito/pages/functions/nutrilization.dart';
 import 'package:nutrito/util/theme/color.dart';
 import 'firebase_options.dart';
@@ -41,7 +42,7 @@ class MyApp extends ConsumerWidget {
       ],
       child: ProviderScope(
         child: GetMaterialApp(
-          title: 'Nutrito-beta',
+          title: "Nutrito-beta",
           theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(seedColor: ColorManager.bluePrimary),
@@ -49,6 +50,8 @@ class MyApp extends ConsumerWidget {
           ),
           debugShowCheckedModeBanner: false,
           home: NavigatorPage(),
+          // home: AlternativePage(),
+          // home: GenPage(),
         ),
       ),
     );

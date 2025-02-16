@@ -1,9 +1,26 @@
-class CompareManager {
-  CompareProducts? compareProducts;
+import 'dart:io';
 
-  CompareManager({this.compareProducts});
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
+class CompareManager {
+  String? id;
+  File? file1;
+  File? file2;
+  CompareProducts? compareProducts;
+  Timestamp timestamp = Timestamp.now();
+
+  CompareManager(
+      {String? id,
+      required this.file1,
+      required this.file2,
+      this.compareProducts})
+      : id = id ?? Uuid().v4();
 
   CompareManager.fromJson(Map<String, dynamic> json) {
+    file1 = json["file1"] != null ? File(json["file1"]) : null;
+    file2 = json["file2"] != null ? File(json["file2"]) : null;
+
     compareProducts = json['compareProducts'] != null
         ? CompareProducts.fromJson(json['compareProducts'])
         : null;
@@ -14,6 +31,14 @@ class CompareManager {
     if (compareProducts != null) {
       data['compareProducts'] = compareProducts!.toJson();
     }
+    if (file1 != null) {
+      data['file1'] = file1!.path;
+    }
+    if (file2 != null) {
+      data['file2'] = file2!.path;
+    }
+    data['timestamp'] = timestamp;
+    data['id'] = id;
     return data;
   }
 }

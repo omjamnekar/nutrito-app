@@ -11,12 +11,13 @@ import 'package:nutrito/network/bloc/nutri_bloc.dart';
 import 'package:nutrito/network/bloc/nutri_state.dart';
 import 'package:nutrito/network/controller/gen.dart';
 import 'package:nutrito/pages/functions/display/loading.dart';
+import 'package:nutrito/pages/functions/display/nutri_hist.dart';
 import 'package:nutrito/pages/functions/display/nutri_out.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class NutriStateNavigate extends StatefulWidget {
-  const NutriStateNavigate({super.key});
+  NutriStateNavigate() : super();
 
   @override
   State<NutriStateNavigate> createState() => _NutriStateNavigateState();
@@ -99,17 +100,30 @@ class _NutrilizationPageState extends ConsumerState<NutrilizationPage> {
                                 color: const Color.fromARGB(221, 36, 36, 36)),
                           ),
                           Spacer(),
-                          Text(
-                            "History",
-                            style: GoogleFonts.poppins(
-                              color: const Color.fromARGB(221, 122, 122, 122),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NutriHistPage(),
+                                )),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "History",
+                                  style: GoogleFonts.poppins(
+                                    color: const Color.fromARGB(
+                                        221, 122, 122, 122),
+                                  ),
+                                ),
+                                Gap(5),
+                                Icon(
+                                  Icons.history,
+                                  color:
+                                      const Color.fromARGB(221, 122, 122, 122),
+                                  size: 30,
+                                ),
+                              ],
                             ),
-                          ),
-                          Gap(5),
-                          Icon(
-                            Icons.history,
-                            color: const Color.fromARGB(221, 122, 122, 122),
-                            size: 30,
                           ),
                           Gap(5),
                         ],

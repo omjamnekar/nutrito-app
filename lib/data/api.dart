@@ -7,8 +7,8 @@ class BaseHttpCall {
 
   BaseHttpCall() {
     try {
-      final String baseUrl =
-          dotenv.env['BASEURL'] ?? 'https://nutrito.vercel.app/api';
+      final String baseUrl = dotenv.env['PYTHONVERCEL'] ??
+          'https://nutrito-prompt-server-muot.vercel.app';
 
       _dio = Dio(BaseOptions(baseUrl: baseUrl));
 
@@ -37,7 +37,8 @@ class GenApi {
 
   GenApi() {
     try {
-      _dio.options.baseUrl = dotenv.env["PYTHONVERCEL"] ?? "";
+      _dio.options.baseUrl = dotenv.env["PYTHONVERCEL"] ??
+          "https://nutrito-prompt-server-muot.vercel.app";
     } on DioException catch (e) {
       print(e.error.toString());
     }
