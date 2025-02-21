@@ -17,9 +17,9 @@ import 'package:nutrito/data/storage/user_Data.dart';
 import 'package:nutrito/network/bloc/nutri_bloc.dart';
 import 'package:nutrito/network/provider/compare.dart';
 import 'package:nutrito/network/provider/nutrilization.dart';
-import 'package:nutrito/pages/functions/display/com_out.dart';
-import 'package:nutrito/pages/functions/display/loading.dart';
-import 'package:nutrito/pages/functions/display/nutri_out.dart';
+import 'package:nutrito/view/functions/display/com_out.dart';
+import 'package:nutrito/view/functions/display/loading.dart';
+import 'package:nutrito/view/functions/display/nutri_out.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
@@ -31,8 +31,8 @@ class GenController extends GetxController {
           ratioPromptManager: null)
       .obs;
 
-  Future<void> nutrilizationCompact(
-      File file, BuildContext context, WidgetRef ref) async {
+  Future<void> nutrilizationCompact(File file, BuildContext context,
+      WidgetRef ref, Map<String, bool> optionData) async {
     GenaiCall gencall = GenaiCall(file: file, context: context);
     final nutriBloc = BlocProvider.of<NutriBloc>(context);
     if (file.path.isEmpty) {
@@ -162,7 +162,7 @@ class GenController extends GetxController {
         },
         SetOptions(merge: true),
       );
-      navigate(context, file);
+      navigate(context, file, optionData);
 
       NutriPreference nutriPreference = NutriPreference();
       await nutriPreference.nutristore(NutriComState(
@@ -195,12 +195,15 @@ class GenController extends GetxController {
     }
   }
 
-  void navigate(BuildContext context, File image) {
+  void navigate(
+      BuildContext context, File image, Map<String, bool> optionData) {
     Navigator.pop(context);
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NutriOutPage(),
+          builder: (context) => NutriOutPage(
+            options: optionData,
+          ),
         ));
   }
 

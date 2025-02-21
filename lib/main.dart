@@ -7,11 +7,10 @@ import 'package:nutrito/network/bloc/conn_bloc.dart';
 import 'package:nutrito/network/bloc/nutri_bloc.dart';
 import 'package:nutrito/network/depandancies.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:nutrito/pages/connection/navigator.dart';
-import 'package:nutrito/pages/functions/alternative.dart';
-import 'package:nutrito/pages/functions/nutrilization.dart';
+import 'package:nutrito/view/connection/navigator.dart';
+import 'package:nutrito/view/functions/nutrilization.dart';
 import 'package:nutrito/util/theme/color.dart';
-import 'firebase_options.dart';
+import 'network/firebase/firebase_options.dart';
 import 'package:get/get.dart';
 
 Future<void> main() async {

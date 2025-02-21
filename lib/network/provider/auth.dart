@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/network/bloc/conn_bloc.dart';
 import 'package:nutrito/network/provider/user.dart';
-import 'package:nutrito/pages/dist/welcome.dart';
+import 'package:nutrito/view/dist/welcome.dart';
 
 class AuthStateManager extends StateNotifier<UserModel> {
   AuthStateManager() : super(UserModel());
