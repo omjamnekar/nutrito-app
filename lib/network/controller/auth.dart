@@ -8,9 +8,9 @@ import 'package:nutrito/data/repositories/googleService.dart';
 import 'package:nutrito/network/provider/auth.dart';
 import 'package:nutrito/network/provider/primary_Setup.dart';
 import 'package:nutrito/network/provider/user.dart';
-import 'package:nutrito/pages/auth/verification.dart';
-import 'package:nutrito/pages/main_page.dart';
-import 'package:nutrito/pages/dist/trailing.dart';
+import 'package:nutrito/view/auth/verification.dart';
+import 'package:nutrito/view/main_page.dart';
+import 'package:nutrito/view/dist/trailing.dart';
 
 class AuthController extends GetxController {
   // late AuthStateManager authNotifier;

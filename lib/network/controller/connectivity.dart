@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:nutrito/pages/connection/connectivity.dart';
+import 'package:nutrito/view/connection/connectivity.dart';
 
 class NetworkContoller extends GetxController {
   BuildContext? context;

@@ -1,41 +1,61 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:http/http.dart" as http;
 import 'package:get/get.dart';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:nutrito/data/api.dart';
 import 'package:nutrito/data/model/gen/alternative/alternative.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:nutrito/network/provider/mongo_Response.dart';
+import 'package:nutrito/view/functions/display/loading.dart';
 
 class AlternativeController extends GetxController {
-  String? product;
-  String? data;
-  AlternativeController({
-    required this.product,
-    required this.data,
-  });
   List<AlthernativeModel> searchedEdit = [];
 
   AlternativeCall alternativeCall = AlternativeCall();
-  Future<List<AlthernativeModel>> suggestAlternative() async {
+  RxList<AlthernativeModel> alternativeList = <AlthernativeModel>[].obs;
+
+  Future<List<AlthernativeModel>> suggestAlternative(
+      String product, String data) async {
     var dataMap = await alternativeCall.generateData(product ?? "", data ?? "");
     return dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
   }
 
-  Future<List<AlthernativeModel>> fullRamdom() async {
+  // Future<List<AlthernativeModel>> categoried() {}
+
+  Future<List<AlthernativeModel>> fullRandom(WidgetRef ref) async {
+    final responseRam = ref.read(mongoResponseProvider.notifier);
+
+    final stateResponse = responseRam.load();
+
+    if (stateResponse.isNotEmpty) {
+      print("fetching ram");
+      return responseRam.load();
+    }
     final dataMap = await alternativeCall.fetchSuggestion();
     alternativeList
         .assignAll(dataMap.map((e) => AlthernativeModel.fromJson(e)).toList());
 
+    final dataAlter =
+        dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
+    responseRam.setup(dataAlter);
     return dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
   }
 
-  Future<List<AlthernativeModel>> generateImageAlternative(File file) async {
-    final dataMap = await alternativeCall.imageAlternative(file);
+  Future<List<AlthernativeModel>> generateImageAlternative(
+      File file, BuildContext context) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GenLoading(),
+      ),
+    );
+    final dataMap = await alternativeCall.imageAlternative(file, context);
     return dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
   }
-
-  RxList<AlthernativeModel> alternativeList = <AlthernativeModel>[].obs;
 
   // Update the alternative list and notify listeners
   void updateAlternativeList(List<AlthernativeModel> newList) {
@@ -60,7 +80,15 @@ class AlternativeController extends GetxController {
 
   Future<void> fetchFullRandom() async {
     final dataMap = await alternativeCall.fetchSuggestion();
+
     final newList = dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
+    updateAlternativeList(newList);
+  }
+
+  Future<void> fetechFromCategorySearch(
+      List<String> filter, String option, BuildContext context) async {
+    final newList =
+        await alternativeCall.fetchDataForCategory(filter, option, context);
     updateAlternativeList(newList);
   }
 }
@@ -75,7 +103,7 @@ class AlternativeCall {
         .post("/api/suggestions", data: {"product": product, "data": data});
 
     if (response.statusCode == 200) {
-      final jsonData = response.data; // Don't use jsonDecode
+      final jsonData = response.data;
 
       if (jsonData is Map<String, dynamic> &&
           jsonData.containsKey("alternative")) {
@@ -89,27 +117,71 @@ class AlternativeCall {
     }
   }
 
-// fetch data from image
-  Future<List<Map<String, dynamic>>> imageAlternative(File fileImage) async {
-    dio.FormData formData = dio.FormData.fromMap({
-      "image": await dio.MultipartFile.fromFile(fileImage.path,
-          filename: fileImage.path.split('/').last),
-    });
-    final response =
-        await genApi.sendRequest.post("/api/imageSuggestion", data: formData);
+  Future<List<AlthernativeModel>> fetchDataForCategory(
+      List<String> filter, String option, BuildContext context) async {
+    try {
+      final response = await genApi.sendRequest.post("/api/catergoriedSearch",
+          data: {"filterData": filter, "option": option});
 
-    if (response.statusCode == 200) {
-      final jsonData = response.data; // Don't use jsonDecode
-
-      if (jsonData is Map<String, dynamic> &&
-          jsonData.containsKey("alternative")) {
-        final List<dynamic> alternativeList = jsonData["alternative"];
-        return List<Map<String, dynamic>>.from(alternativeList);
+      if (response.statusCode == 200) {
+        final jsonData = response.data;
+        if (jsonData is Map<String, dynamic> &&
+            jsonData.containsKey("alternative")) {
+          return (List<Map<String, dynamic>>.from(jsonData["alternative"]))
+              .map((e) => AlthernativeModel.fromJson(e))
+              .toList();
+        } else {
+          throw Exception("Unexpected response format");
+        }
       } else {
-        throw Exception("Unexpected response format");
+        throw Exception("Failed to load data");
       }
-    } else {
-      throw Exception("Failed to load data");
+    } on dio.DioException catch (e) {
+      if (e.response?.statusCode == 504) {
+        print("Server timeout! Retrying...");
+        Navigator.popUntil(context, ModalRoute.withName('/AlternativePage'));
+        return [];
+      } else {
+        Navigator.pop(context);
+        return [];
+      }
+    }
+  }
+
+// fetch data from image
+  Future<List<Map<String, dynamic>>> imageAlternative(
+      File fileImage, BuildContext context) async {
+    try {
+      dio.FormData formData = dio.FormData.fromMap({
+        "image": await dio.MultipartFile.fromFile(fileImage.path,
+            filename: fileImage.path.split('/').last),
+      });
+
+      final response = await genApi.sendRequest.post(
+        "/api/imageSuggestion",
+        data: formData,
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = response.data;
+        if (jsonData is Map<String, dynamic> &&
+            jsonData.containsKey("alternative")) {
+          return List<Map<String, dynamic>>.from(jsonData["alternative"]);
+        } else {
+          throw Exception("Unexpected response format");
+        }
+      } else {
+        throw Exception("Failed to load data");
+      }
+    } on dio.DioException catch (e) {
+      if (e.response?.statusCode == 504) {
+        print("Server timeout! Retrying...");
+        Navigator.popUntil(context, ModalRoute.withName('/AlternativePage'));
+        return [];
+      } else {
+        Navigator.pop(context);
+        return [];
+      }
     }
   }
 
