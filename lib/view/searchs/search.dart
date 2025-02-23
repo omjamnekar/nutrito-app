@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nutrito/data/model/gen/alternative/alternative.dart';
 import 'package:nutrito/network/controller/alternative.dart';
 import 'package:nutrito/view/searchs/filter.dart';
@@ -197,7 +198,26 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     Expanded(
                       child: Obx(() {
                         if (ctrl.alternativeList.isEmpty) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                            child: Column(
+                              children: [
+                                Opacity(
+                                  opacity: 0.5,
+                                  child: Lottie.asset(
+                                      "assets/image/auth/cat.json",
+                                      width: 200,
+                                      height: 200),
+                                ),
+                                Text(
+                                  "oops not enough data..!",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.grey,
+                                    fontSize: 15,
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
                         }
 
                         return GridView.builder(
@@ -226,7 +246,15 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                                     child: Container(
                                       width: double.maxFinite,
                                       child: Image.network(
-                                        item.imageUrl ?? "",
+                                        item.imageUrl ??
+                                            "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Image.network(
+                                            "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),

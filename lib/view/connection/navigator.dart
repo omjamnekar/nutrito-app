@@ -19,19 +19,28 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ConnBloc, ConnState>(
       builder: (context, state) {
+        Widget page;
         if (state is HomeState) {
-          return const MainPage();
+          page = const MainPage();
         } else if (state is SplashState) {
-          return SplashPage(
+          page = SplashPage(
             widget: const OnboardingPage(),
           );
         } else if (state is BoardingState) {
-          return const WelcomePage();
+          page = const WelcomePage();
         } else {
-          return SplashPage(
+          page = SplashPage(
             widget: const WelcomePage(),
           );
         }
+
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          child: page,
+        );
       },
     );
   }

@@ -14,7 +14,7 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
-  ComSmartList? comSmartList;
+  late ComSmartList comSmartList = ComSmartList(smartShoppingListManager: []);
   SmartShoppingListPreferences shoppingListPreferences =
       SmartShoppingListPreferences();
   bool isLoading = true; // Track initialization state
@@ -28,8 +28,10 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   }
 
   Future<void> initialDataSetup() async {
-    comSmartList = await shoppingListPreferences.getData();
+    final data = await shoppingListPreferences.getData();
+
     setState(() {
+      if (data != null) comSmartList = data;
       isLoading = false; // Data has been initialized
     });
   }
@@ -43,7 +45,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // Show loading indicator while data is initializing
       return Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -51,7 +52,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       );
     }
 
-    // Use FutureBuilder only after data is initialized
     return Scaffold(
       appBar: AppBar(
         title: Text("Grocery Days"),
@@ -70,7 +70,10 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         child: FutureBuilder(
           future: Future.value(comSmartList),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data != null &&
+                snapshot.data!.smartShoppingListManager.isNotEmpty &&
+                snapshot.connectionState == ConnectionState.done) {
+              print(snapshot.data!.smartShoppingListManager.length);
               return (snapshot.data != null &&
                       snapshot.data!.smartShoppingListManager.isNotEmpty)
                   ? PackageManage(
@@ -132,6 +135,8 @@ class PackageManage extends StatefulWidget {
 class _PackageManageState extends State<PackageManage> {
   @override
   Widget build(BuildContext context) {
+    print(
+        "from object ${widget.comSmartList.smartShoppingListManager.first.smartItems}");
     final data = widget.comSmartList;
 
     return Column(
@@ -195,7 +200,7 @@ class _PackageManageState extends State<PackageManage> {
                               ),
                               child: Image.asset(data
                                   .smartShoppingListManager[index]
-                                  .cartItems
+                                  .smartItems
                                   .last
                                   .imageUrl!),
                             ),

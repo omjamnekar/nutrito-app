@@ -44,7 +44,8 @@ class AuthController extends GetxController {
                 () => VerificationPage(
                       authcontroller: ctrl,
                     ),
-                transition: Transition.fade);
+                transition: Transition.zoom,
+                duration: Duration(milliseconds: 600));
           } else {
             Get.snackbar(value.statusCode.toString(),
                 value.message?.toString() ?? "network errors");
@@ -168,8 +169,23 @@ class AuthController extends GetxController {
       Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
           context,
-          MaterialPageRoute(
-            builder: (context) => const TrailingPage(),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const TrailingPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
           ));
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously

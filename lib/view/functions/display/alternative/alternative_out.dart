@@ -77,7 +77,14 @@ class _AlternativePageState extends State<AlternativeOutPage> {
                                   // color: const Color.fromARGB(84, 0, 221, 181),
                                   ),
                               child: Image.network(
-                                item.imageUrl ?? "",
+                                item.imageUrl ??
+                                    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.network(
+                                    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                             ),
                           ),

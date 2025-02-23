@@ -19,20 +19,30 @@ class _AlternativeImagePageState extends State<AlternativeImagePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    dataMap = widget.alternative;
+
+    setData();
+  }
+
+  void setData() {
+    setState(() {
+      dataMap = widget.alternative;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: FutureBuilder(
         future: Future.value(dataMap),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data != null &&
+              snapshot.data!.isNotEmpty &&
+              snapshot.connectionState == ConnectionState.done) {
             return Container(
               height: (snapshot.data!.length / 2) * 100,
               child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                // physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
@@ -172,8 +182,8 @@ class _AlternativeImagePageState extends State<AlternativeImagePage> {
               ),
             );
           } else {
+            // print(snapshot.data?.first?.name ?? "");
             return Container(
-              height: (10 / 2) * 150,
               child: GridView.builder(
                 itemCount: 20,
                 physics: NeverScrollableScrollPhysics(),
