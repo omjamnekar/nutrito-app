@@ -32,7 +32,6 @@ class AlternativeController extends GetxController {
     final stateResponse = responseRam.load();
 
     if (stateResponse.isNotEmpty) {
-      print("fetching ram");
       return responseRam.load();
     }
     final dataMap = await alternativeCall.fetchSuggestion();
@@ -54,6 +53,7 @@ class AlternativeController extends GetxController {
       ),
     );
     final dataMap = await alternativeCall.imageAlternative(file, context);
+    if (dataMap.isEmpty) Navigator.pop(context);
     return dataMap.map((e) => AlthernativeModel.fromJson(e)).toList();
   }
 
@@ -176,7 +176,7 @@ class AlternativeCall {
     } on dio.DioException catch (e) {
       if (e.response?.statusCode == 504) {
         print("Server timeout! Retrying...");
-        Navigator.popUntil(context, ModalRoute.withName('/AlternativePage'));
+
         return [];
       } else {
         Navigator.pop(context);

@@ -7,8 +7,8 @@ class BaseHttpCall {
 
   BaseHttpCall() {
     try {
-      final String baseUrl = dotenv.env['PYTHONVERCEL'] ??
-          'https://nutrito-prompt-server-muot.vercel.app';
+      final String baseUrl =
+          dotenv.env['BASEURL'] ?? 'https://nutrito.vercel.app/api';
 
       _dio = Dio(BaseOptions(baseUrl: baseUrl));
 

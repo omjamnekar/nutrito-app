@@ -8,18 +8,13 @@ class SmartShoppingListPreferences {
 
     try {
       if (existingData != null) {
-        // Deserialize existing data
         final mergedData = ComSmartList.fromString(existingData);
-        print("here code ");
 
-        // Add new shoppingList
         mergedData.smartShoppingListManager
             .add(shoppingList.smartShoppingListManager.first);
 
-        // Serialize and store updated data
         await prefs.setString("smartShoppingList", mergedData.toJsonString());
       } else {
-        // Store new data as JSON string
         await prefs.setString(
           "smartShoppingList",
           shoppingList.toJsonString(),

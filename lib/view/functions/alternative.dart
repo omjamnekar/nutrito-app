@@ -36,6 +36,7 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: GetBuilder<AlternativeController>(
@@ -46,7 +47,6 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Gap(30),
                       Text(
                         "Aleternative\nProduct !!",
                         style: GoogleFonts.poppins(
@@ -166,8 +166,8 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
 
                             await ctrl
                                 .generateImageAlternative(fileImage, context)
-                                .then(
-                              (value) {
+                                .then((value) {
+                              if (value.isNotEmpty) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -176,8 +176,11 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                                         alternative: value,
                                       ),
                                     ));
-                              },
-                            );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("server error")));
+                              }
+                            });
                           },
                           iconAlignment: IconAlignment.end,
                           icon: Icon(Icons.arrow_right_alt_sharp,
@@ -238,7 +241,15 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                                                 // color: const Color.fromARGB(84, 0, 221, 181),
                                                 ),
                                             child: Image.network(
-                                              item.imageUrl ?? "",
+                                              item.imageUrl ??
+                                                  "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Image.network(
+                                                  "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),

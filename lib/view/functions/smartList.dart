@@ -16,7 +16,6 @@ import 'package:nutrito/util/data/product_image.dart';
 import 'package:nutrito/util/data/veggie_image.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';
-import 'package:nutrito/view/functions/gen/gen_chat.dart';
 
 class SmartListPage extends StatefulWidget {
   const SmartListPage({super.key});

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrito/network/controller/auth.dart';
 import 'package:nutrito/view/functions/alternative.dart';
 import 'package:nutrito/view/functions/compare.dart';
 import 'package:nutrito/view/functions/gen/gen_chat.dart';
@@ -12,6 +11,7 @@ import 'package:nutrito/view/home/components/drawer.dart';
 import 'package:nutrito/view/home/home.dart';
 import 'package:nutrito/view/home/components/opener.dart';
 import 'package:nutrito/view/media/social.dart';
+
 import 'package:nutrito/view/options/scanHistory.dart';
 import 'package:nutrito/view/searchs/search.dart';
 import 'package:nutrito/view/settings/user.dart';
@@ -55,9 +55,9 @@ class _MainPageState extends ConsumerState<MainPage> {
     const Center(child: Text("Camera Page Placeholder")),
     const SocialMediaPage(),
     SettingsPage(),
-    ComaparePage(),
-    NutriStateNavigate(),
-    SmartListPage(),
+    // ComaparePage(),
+    // NutriStateNavigate(),
+    // SmartListPage(),
   ];
 
   @override
@@ -79,20 +79,41 @@ class _MainPageState extends ConsumerState<MainPage> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AlternativePage(),
-                  ));
-            },
-            child: Row(
-              children: [
-                Text(
-                  "Alter",
-                  style: GoogleFonts.poppins(fontSize: 15),
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      AlternativePage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: FadeTransition(
+                        opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.easeInOut,
+                          ),
+                        ),
+                        child: child,
+                      ),
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 300),
+                  reverseTransitionDuration: const Duration(milliseconds: 300),
                 ),
-                Gap(5),
-                Icon(Icons.change_circle_outlined),
-              ],
+              );
+            },
+            child: Container(
+              child: Row(
+                children: [
+                  Text(
+                    "Alter",
+                    style: GoogleFonts.poppins(fontSize: 15),
+                  ),
+                  Gap(5),
+                  Icon(Icons.change_circle_outlined),
+                ],
+              ),
             ),
           ),
           Gap(20),
