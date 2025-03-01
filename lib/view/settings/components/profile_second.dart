@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/data/settings.dart';
+import 'package:get/get.dart';
+import 'package:nutrito/util/theme/color.dart';
+import 'package:nutrito/view/settings/pages/profile/about.dart';
+
+import 'package:nutrito/view/settings/pages/profile/cooking.dart';
+import 'package:nutrito/view/settings/pages/profile/family.dart';
+import 'package:nutrito/view/settings/pages/profile/healthSetting.dart';
+import 'package:nutrito/view/settings/pages/profile/myPost.dart';
+import 'package:nutrito/view/settings/pages/profile/myScan.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SecondSection extends ConsumerStatefulWidget {
   const SecondSection({super.key});
@@ -18,7 +29,7 @@ class _SecondSectionState extends ConsumerState<SecondSection> {
       height: 540,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         boxShadow: [
           // Bottom Shadow
           BoxShadow(
@@ -54,6 +65,7 @@ class _SecondSectionState extends ConsumerState<SecondSection> {
                       "assets/image/settings/arc.png",
                       width: 30,
                     ),
+                    onTap: () => onSwitch(index),
                   );
                 },
               ),
@@ -80,6 +92,7 @@ class _SecondSectionState extends ConsumerState<SecondSection> {
                     setState(() {
                       _seletedOption = newValue ?? "";
                     });
+                    snackShow(newValue ?? "");
                   },
                 ),
               ),
@@ -96,6 +109,7 @@ class _SecondSectionState extends ConsumerState<SecondSection> {
                       "assets/image/settings/arc.png",
                       width: 30,
                     ),
+                    onTap: () => onSwitch2(index),
                   );
                 },
               ),
@@ -104,5 +118,76 @@ class _SecondSectionState extends ConsumerState<SecondSection> {
         ),
       ),
     );
+  }
+
+  void snackShow(String account) {
+    Get.snackbar("Info", "Your account is now $account",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+        icon: Icon(
+          Icons.info_outline,
+          color: Colors.white,
+        ),
+        colorText: Colors.white,
+        margin: EdgeInsets.only(bottom: 10));
+  }
+
+  void onSwitch(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ScanSettingsPage(),
+            ));
+        break;
+      case 1:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CookingAISettingsPage(),
+            ));
+        break;
+      case 2:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FamilyHealthPage(),
+            ));
+        break;
+      case 3:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HealthGuideSettings(),
+            ));
+        break;
+      default:
+    }
+  }
+
+  void onSwitch2(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostSettingsPage(),
+            ));
+        break;
+      case 1:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AboutPage(),
+            ));
+        break;
+      case 2:
+        Share.share(
+            'Check out Nutrito for your Health and Famiy:\nhttps://github.com/omjamnekar/nutrito-app');
+        break;
+
+      default:
+    }
   }
 }

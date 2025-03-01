@@ -4,11 +4,11 @@ import 'package:nutrito/data/model/sections/settings.dart';
 import 'package:nutrito/util/theme/color.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/view/functions/gen/gen_chat.dart';
-import 'package:nutrito/view/settings/pages/custom_goal.dart';
-import 'package:nutrito/view/settings/pages/goal_aligment.dart';
-import 'package:nutrito/view/settings/pages/instantAlert.dart';
-import 'package:nutrito/view/settings/pages/ml_model.dart';
-import 'package:nutrito/view/settings/pages/personalize_con.dart';
+import 'package:nutrito/view/settings/pages/goals/custom_goal.dart';
+import 'package:nutrito/view/settings/pages/goals/goal_aligment.dart';
+import 'package:nutrito/view/settings/pages/goals/instantAlert.dart';
+import 'package:nutrito/view/settings/pages/goals/ml_model.dart';
+import 'package:nutrito/view/settings/pages/goals/personalize_con.dart';
 
 class GoalSection extends StatefulWidget {
   const GoalSection({super.key});
@@ -50,7 +50,7 @@ class _GoalSectionState extends State<GoalSection> {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
+              color: Theme.of(context).canvasColor,
               boxShadow: [
                 // Bottom Shadow
                 BoxShadow(
@@ -283,7 +283,7 @@ class _GoalSectionState extends State<GoalSection> {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
+              color: Theme.of(context).canvasColor,
               boxShadow: [
                 // Bottom Shadow
                 BoxShadow(

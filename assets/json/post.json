@@ -1,0 +1,146 @@
+{
+  "post":{ 
+     "myFeed":[
+  
+        {
+            "imageUrl":"",
+            "name":"",
+            "uid":"",
+            "timestamp":"",
+            "description":"",
+
+            "postImageUrl":"",
+            "like":0,
+            "dislike":0,
+            "reply":[
+                {
+                    "uid":"",
+                    "name":"",
+                    "message":"",
+                    "reply":[]
+                }
+            ]
+
+        },
+          {
+            "imageUrl":"",
+            "name":"",
+            "uid":"",
+            "timestamp":"",
+            "description":"",
+
+            "postImageUrl":"",
+            "like":0,
+            "dislike":0,
+            "reply":[
+                {
+                    "uid":"",
+                    "name":"",
+                    "message":"",
+                    "reply":[]
+                }
+            ]
+
+        }
+    ],
+
+    "popular":[
+        {
+            "imageUrl":"",
+            "name":"",
+            "uid":"",
+            "timestamp":"",
+            "description":"",
+
+            "postImageUrl":"",
+            "like":0,
+            "dislike":0,
+            "reply":[
+                {
+                    "uid":"",
+                    "name":"",
+                    "message":"",
+                    "reply":[]
+                }
+            ]
+
+        }
+    ],
+    "all":[
+         {
+            "imageUrl":"",
+            "name":"",
+            "uid":"",
+            "timestamp":"",
+            "description":"",
+
+            "postImageUrl":"",
+            "like":0,
+            "dislike":0,
+            "reply":[
+                {
+                    "uid":"",
+                    "name":"",
+                    "message":"",
+                    "reply":[]
+                }
+            ]
+
+        }
+    ]
+    
+},
+
+"comminity":[
+    {
+      "name":"",
+      "membersNo":"",
+      "description": "",
+      "createdAt": "",
+       "tags": [],
+      "users":[
+        {
+          "name":"",
+          "id":"",
+          "email":"",
+          "post":[]
+        }
+      ],
+      "post":[
+        {
+            "email":"",
+            "uid":""
+        }
+      ],
+      "admin":[{
+        "name":"",
+        "id":"",
+        "email":""
+      }]
+      
+    }, 
+    {
+      "name":"",
+      "membersNo":"",
+      "description": "",
+      "createdAt": "",
+       "tags": [],
+      "users":[
+        {
+          "name":"",
+          "id":"",
+          "email":"",
+          "post":[]
+        }
+      ],
+      "admin":[{
+        "name":"",
+        "id":"",
+        "email":""
+      }]
+      
+    }
+  ]
+  
+}
+

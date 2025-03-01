@@ -1,20 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:nutrito/data/model/sections/settings.dart';
+import 'package:nutrito/network/provider/user.dart';
 import 'package:nutrito/view/settings/components/graphs/circle_graph.dart';
 import 'package:nutrito/view/settings/components/graphs/linear.dart';
 import 'package:nutrito/view/settings/components/graphs/semi_circle.dart';
 import 'package:nutrito/util/data/settings.dart';
 
 import 'package:nutrito/util/extensions/extensions.dart';
+import 'package:nutrito/view/settings/pages/profile/avatar.dart';
+import 'package:nutrito/view/settings/pages/profile/setup.dart';
 
-class SectionFirst extends StatefulWidget {
+class SectionFirst extends ConsumerStatefulWidget {
   const SectionFirst({super.key});
 
   @override
-  State<SectionFirst> createState() => _SectionFirstState();
+  ConsumerState<SectionFirst> createState() => _SectionFirstState();
 }
 
-class _SectionFirstState extends State<SectionFirst> {
+class _SectionFirstState extends ConsumerState<SectionFirst> {
   bool isGood = true;
   final List<String> _itemsOption = ["A", "B", "C", "D", "E", "F"];
   String _seletedOption = "A";
@@ -26,6 +33,21 @@ class _SectionFirstState extends State<SectionFirst> {
     const Text("Dietary Intake:").withStyle(),
     const Text("Nutrient Deficiencies").withStyle(fontSize: 16),
   ];
+  Profile profile = Profile(section_1: null);
+
+  @override
+  void initState() {
+    super.initState();
+    loadState();
+  }
+
+  Future<void> loadState() async {
+    final data = await ref.watch(profileProvider.notifier).loadState();
+
+    setState(() {
+      profile = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +55,7 @@ class _SectionFirstState extends State<SectionFirst> {
       height: 630,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         boxShadow: [
           // Bottom Shadow
           BoxShadow(
@@ -55,7 +77,7 @@ class _SectionFirstState extends State<SectionFirst> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
+        child: Container(
           child: Column(
             children: [
               Flexible(
@@ -64,7 +86,7 @@ class _SectionFirstState extends State<SectionFirst> {
                   children: [
                     Flexible(
                       flex: 6,
-                      child: SizedBox(
+                      child: Container(
                         child: ListView.builder(
                           itemCount: 4,
                           physics: const NeverScrollableScrollPhysics(),
@@ -72,6 +94,7 @@ class _SectionFirstState extends State<SectionFirst> {
                             return ListTile(
                               leading: profileFirstSection[index],
                               title: _titles[index],
+                              onTap: () => onTapSection(index),
                             );
                           },
                         ),
@@ -202,5 +225,51 @@ class _SectionFirstState extends State<SectionFirst> {
         ),
       ),
     );
+  }
+
+  void onTapSection(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AvatarPage(
+                ref: ref,
+              ),
+            ));
+        break;
+      case 1:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AvatarPage(
+                ref: ref,
+              ),
+            ));
+        break;
+
+      case 2:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AvatarPage(
+                ref: ref,
+              ),
+            ));
+        break;
+
+      case 4:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AvatarPage(
+                ref: ref,
+              ),
+            ));
+        break;
+
+      default:
+        exit(0);
+    }
   }
 }

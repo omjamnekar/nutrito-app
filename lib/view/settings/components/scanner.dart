@@ -18,7 +18,7 @@ class _ScancSectionState extends State<ScancSection> {
       margin: const EdgeInsets.only(top: 20, left: 8, right: 8, bottom: 500),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         boxShadow: [
           // Bottom Shadow
           BoxShadow(

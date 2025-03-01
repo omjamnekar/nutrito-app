@@ -13,10 +13,8 @@ class ChatSection extends ConsumerWidget {
     final messages = ref.watch(chatProvider);
     final chatNotifier = ref.read(chatProvider.notifier);
 
-    if (chatNotifier != null &&
-        chatNotifier.mounted &&
+    if (chatNotifier.mounted &&
         chatNotifier.stream.isBroadcast &&
-        messages != null &&
         messages.isNotEmpty &&
         messages.first.message.isNotEmpty) {
       return ChatView(

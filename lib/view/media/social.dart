@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrito/data/model/ImagePost.dart';
+import 'package:nutrito/view/media/sections/allpost.dart';
 import 'package:nutrito/view/media/sections/feed.dart';
 import 'package:nutrito/view/media/sections/popular.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
@@ -22,14 +23,12 @@ class _SocialMediaPageState extends State<SocialMediaPage>
     super.initState();
     tabcontroller = TabController(length: 2, initialIndex: 0, vsync: this);
     sectionController = TabController(length: 4, initialIndex: 0, vsync: this);
-
-    print("social");
   }
 
   final List<String> _navigate = [
+    "ALL",
     "MY FEED",
     "POPULAR",
-    "ALL",
     "CUSTOM",
   ];
 
@@ -110,46 +109,7 @@ class _SocialMediaPageState extends State<SocialMediaPage>
                       physics: const NeverScrollableScrollPhysics(),
                       controller: sectionController,
                       children: [
-                        PostCard(post: [
-                          Post(
-                              likes: "30k",
-                              messages: {
-                                "messages": {
-                                  "user1": {"om": "this is good food"},
-                                  "user2": {"omkar": "this is good food"},
-                                  "user3": {"om": "this is good food"},
-                                }
-                              },
-                              userName: "username",
-                              userRole: "datascience",
-                              profileImageUrl:
-                                  "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-                              postImageUrl: [
-                                "https://images.immediate.co.uk/production/volatile/sites/30/2013/05/spaghetti-carbonara-382837d.jpg?quality=90&resize=556,505"
-                              ],
-                              timestamp: DateTime.now().toUtc().toString(),
-                              content:
-                                  "Get this image on: Vecteezy | License details Want to know where this information comes from? Learn more"),
-                          Post(
-                              likes: "30k",
-                              messages: {
-                                "messages": {
-                                  "user1": {"om": "this is good food"},
-                                  "user2": {"omkar": "this is good food"},
-                                  "user3": {"om": "this is good food"},
-                                }
-                              },
-                              userName: "username",
-                              userRole: "datascience",
-                              profileImageUrl:
-                                  "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-                              postImageUrl: [
-                                "https://images.immediate.co.uk/production/volatile/sites/30/2013/05/spaghetti-carbonara-382837d.jpg?quality=90&resize=556,505"
-                              ],
-                              timestamp: DateTime.now().toUtc().toString(),
-                              content:
-                                  "Get this image on: Vecteezy | License details Want to know where this information comes from? Learn more"),
-                        ]),
+                        AllPostSection(),
                         const UserPostCard(),
                         const UserPostCard(),
                         const UserPostCard(),

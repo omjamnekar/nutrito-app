@@ -24,6 +24,18 @@ class NutriComState {
     };
   }
 
+  factory NutriComState.fromJson(Map<String, dynamic> json) {
+    return NutriComState(
+      genNutrilizationResponse: json['genNutrilizationResponse'] != null
+          ? GenNutrilizationResponse.fromJson(json['genNutrilizationResponse'])
+          : null,
+      fileImage: json['fileImage'] != null ? File(json['fileImage']) : null,
+      timestamp: json['timestamp'] != null
+          ? Timestamp.fromMillisecondsSinceEpoch(json['timestamp'])
+          : Timestamp.now(),
+    );
+  }
+
   @override
   String toString() {
     return jsonEncode(toJson());

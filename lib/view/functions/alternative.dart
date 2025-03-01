@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutrito/network/controller/alternative.dart';
 import 'package:nutrito/view/functions/display/alternative/alternative_image.dart';
-import 'package:nutrito/view/functions/display/loading.dart';
+
 import 'package:nutrito/util/theme/color.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -342,14 +342,12 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                                                           flex: 7,
                                                           child: Text(
                                                             item.healthBenefits!
-                                                                    .map(
-                                                                      (e) => e
-                                                                          .toString(),
-                                                                    )
-                                                                    .toList()
-                                                                    .join(
-                                                                        '. ') ??
-                                                                "",
+                                                                .map(
+                                                                  (e) => e
+                                                                      .toString(),
+                                                                )
+                                                                .toList()
+                                                                .join('. '),
                                                             maxLines: 2,
                                                             overflow:
                                                                 TextOverflow

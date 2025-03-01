@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:nutrito/data/model/ImagePost.dart';
+import 'package:nutrito/data/model/media/post.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class PostController extends GetxController {
@@ -59,7 +60,7 @@ class PostController extends GetxController {
 }
 
 class PostCard extends StatelessWidget {
-  final List<Post> post;
+  final List<PostModel> post;
 
   const PostCard({super.key, required this.post});
 
@@ -76,14 +77,20 @@ class PostCard extends StatelessWidget {
                 ListTile(
                   leading: CircleAvatar(
                     backgroundImage:
-                        NetworkImage(post[postindex].profileImageUrl),
+                        NetworkImage(post[postindex].postImageUrl ?? ""),
                   ),
                   title: Text(
-                    post[postindex].userName,
+                    post[postindex]
+                            .nutriComState
+                            ?.genNutrilizationResponse
+                            ?.initialPromptManager
+                            ?.initialData
+                            ?.name ??
+                        "",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                      '${post[postindex].userRole} • ${post[postindex].timestamp}'),
+                      '${post[postindex].description} • ${post[postindex].timestamp}'),
                   trailing: Transform.rotate(
                       angle: 1.6, child: const Icon(Icons.more_vert_outlined)),
                 ),
@@ -93,7 +100,13 @@ class PostCard extends StatelessWidget {
                   child: SizedBox(
                     height: 60,
                     child: Text(
-                      post[postindex].content,
+                      post[postindex]
+                              .nutriComState
+                              ?.genNutrilizationResponse
+                              ?.conclusionPromptManger
+                              ?.conclusionData
+                              ?.conclusion ??
+                          "",
                       style: const TextStyle(fontSize: 14),
                     ),
                   ),
@@ -131,7 +144,7 @@ class PostCard extends StatelessWidget {
                         color: ColorManager.bluePrimary,
                         size: 30,
                       ),
-                      Text(post[postindex].likes),
+                      Text(post[postindex].like.toString()),
                       const Gap(20),
                       const Icon(
                         Icons.message_outlined,
@@ -140,7 +153,7 @@ class PostCard extends StatelessWidget {
                       ),
                       const Gap(5),
                       Text(
-                        post[postindex].messages['messages'].length.toString(),
+                        post[postindex].reply?.length.toString() ?? "0",
                       ),
                       const Spacer(),
                       Transform.rotate(

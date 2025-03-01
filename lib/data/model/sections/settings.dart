@@ -49,17 +49,17 @@ class Profile {
 }
 
 class Section_1 {
-  final String? avatar;
-  final String? username;
-  final String? email;
-  final DiataryIntake? diataryIntake;
-  final HealthScore? healthScore;
-  final NutrientDeficiencies? nutrientDeficiencies;
-  final Weight? weight;
-  final Weight? weightLoss;
-  final NutriScore? nutriScore;
-  final List<Group>? groups;
-  final ProfileAccess profileAccess;
+  String? avatar;
+  String? username;
+  String? email;
+  DiataryIntake? diataryIntake;
+  HealthScore? healthScore;
+  NutrientDeficiencies? nutrientDeficiencies;
+  Weight? weight;
+  Weight? weightLoss;
+  NutriScore? nutriScore;
+  List<Group>? groups;
+  ProfileAccess profileAccess;
 
   Section_1({
     required this.avatar,

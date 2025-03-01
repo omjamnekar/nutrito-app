@@ -1,0 +1,47 @@
+{
+  "comminity":[
+    {
+      "name":"",
+      "membersNo":"",
+      "description": "",
+      "createdAt": "",
+       "tags": [],
+      "users":[
+        {
+          "name":"",
+          "id":"",
+          "email":"",
+          "post":[]
+        }
+      ],
+      "admin":[{
+        "name":"",
+        "id":"",
+        "email":""
+      }]
+      
+    }, 
+    {
+      "name":"",
+      "membersNo":"",
+      "description": "",
+      "createdAt": "",
+       "tags": [],
+      "users":[
+        {
+          "name":"",
+          "id":"",
+          "email":"",
+          "post":[]
+        }
+      ],
+      "admin":[{
+        "name":"",
+        "id":"",
+        "email":""
+      }]
+      
+    }
+  ]
+  
+}

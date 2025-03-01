@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:excel/excel.dart' as excel;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -42,33 +41,33 @@ class _NutriOutPageState extends ConsumerState<NutriOutPage>
     healthController = TabController(length: 2, vsync: this);
   }
 
-  Future<void> convertJsonToExcel() async {
-    // Decode JSON
-    List<dynamic> jsonData = json.decode("");
+  // Future<void> convertJsonToExcel() async {
+  //   // Decode JSON
+  //   List<dynamic> jsonData = json.decode("");
 
-    // Create Excel
-    var excelinit = excel.Excel.createExcel();
-    excel.Sheet sheetObject = excelinit['Sheet1'];
+  //   // Create Excel
+  //   var excelinit = excel.Excel.createExcel();
+  //   excel.Sheet sheetObject = excelinit['Sheet1'];
 
-    // Add headers
-    if (jsonData.isNotEmpty) {
-      sheetObject.appendRow(jsonData.first.keys.toList());
-    }
+  //   // Add headers
+  //   if (jsonData.isNotEmpty) {
+  //     sheetObject.appendRow(jsonData.first.keys.toList());
+  //   }
 
-    // Add rows
-    for (var item in jsonData) {
-      sheetObject.appendRow(item.values.toList());
-    }
+  //   // Add rows
+  //   for (var item in jsonData) {
+  //     sheetObject.appendRow(item.values.toList());
+  //   }
 
-    // Save Excel file
-    final directory = await getApplicationDocumentsDirectory();
-    String filePath = '${directory.path}/output.xlsx';
-    File(filePath)
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(excelinit.save()!);
+  //   // Save Excel file
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   String filePath = '${directory.path}/output.xlsx';
+  //   File(filePath)
+  //     ..createSync(recursive: true)
+  //     ..writeAsBytesSync(excelinit.save()!);
 
-    print("Excel file saved at: $filePath");
-  }
+  //   print("Excel file saved at: $filePath");
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -51,9 +51,9 @@ class _SettingsPageState extends State<SettingsPage>
                       child: Text(
                         "User Account",
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 28,
-                            color: Colors.black87),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                        ),
                       ),
                     ),
                     const Padding(
