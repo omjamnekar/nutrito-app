@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/theme/color.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class GoalHomeSections extends StatefulWidget {
   const GoalHomeSections({super.key});

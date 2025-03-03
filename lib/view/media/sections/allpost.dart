@@ -40,7 +40,7 @@ class _AllPostSectionState extends State<AllPostSection> {
             PostModel(
               like: 30,
               reply: [
-                Reply(
+                ReplyUser(
                   name: "om",
                   message: "this is good",
                   reply: [],

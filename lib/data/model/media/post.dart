@@ -13,7 +13,7 @@ class PostModel {
   NutriComState? nutriComState;
   int? like;
   int? dislike;
-  List<Reply>? reply;
+  List<ReplyUser>? reply;
 
   PostModel({
     this.imageUrl,
@@ -44,7 +44,8 @@ class PostModel {
         : null;
 
     if (json['reply'] != null) {
-      reply = List<Reply>.from(json['reply'].map((v) => Reply.fromJson(v)));
+      reply =
+          List<ReplyUser>.from(json['reply'].map((v) => ReplyUser.fromJson(v)));
     }
   }
 
@@ -69,21 +70,22 @@ class PostModel {
   }
 }
 
-class Reply {
+class ReplyUser {
   String? uid;
   String? name;
   String? message;
-  List<Reply>? reply;
+  List<ReplyUser>? reply;
 
-  Reply({this.uid, this.name, this.message, this.reply});
+  ReplyUser({this.uid, this.name, this.message, this.reply});
 
-  Reply.fromJson(Map<String, dynamic> json) {
+  ReplyUser.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     name = json['name'];
     message = json['message'];
 
     if (json['reply'] != null) {
-      reply = List<Reply>.from(json['reply'].map((v) => Reply.fromJson(v)));
+      reply =
+          List<ReplyUser>.from(json['reply'].map((v) => ReplyUser.fromJson(v)));
     }
   }
 
