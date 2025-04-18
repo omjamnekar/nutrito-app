@@ -5,10 +5,7 @@ import 'package:nutrito/view/home/components/second_section.dart';
 import 'package:nutrito/view/home/components/trigger.dart';
 import 'package:nutrito/view/home/graph/ai_suggestion.dart';
 import 'package:nutrito/view/home/graph/goals.dart';
-import 'package:nutrito/view/home/graph/hero_Indicator.dart';
-import 'package:nutrito/view/home/graph/last_section.dart';
 import 'package:nutrito/view/home/graph/sleep.dart';
-import 'graph/bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,17 +42,17 @@ class _HomePageState extends State<HomePage> {
               Gap(20),
               AiSuggestion(),
               Gap(20),
-              MainGraphSection(),
+              // MainGraphSection(),
               GoalHomeSections(),
-              BarGraphSection(),
-              DashboardWidget(
-                steps: 7500,
-                goalSteps: 10000,
-                water: 2.5,
-                calories: '1800 kcal',
-                pulse: 72,
-                weight: 68.5,
-              ),
+              // BarGraphSection(),
+              // DashboardWidget(
+              //   steps: 7500,
+              //   goalSteps: 10000,
+              //   water: 2.5,
+              //   calories: '1800 kcal',
+              //   pulse: 72,
+              //   weight: 68.5,
+              // ),
             ],
           ),
         ),

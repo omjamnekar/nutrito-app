@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nutrito/util/theme/color.dart';
+import 'package:nutrito/view/searchs/search.dart';
 
 class AiSuggestion extends StatefulWidget {
   const AiSuggestion({super.key});
@@ -139,7 +140,14 @@ class _AiSuggestionState extends State<AiSuggestion> {
                 height: 25,
                 color: ColorManager.bluePrimary,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchPage(),
+                  ),
+                );
+              },
               label: ShaderMask(
                 shaderCallback: (bounds) => LinearGradient(
                   colors: [ColorManager.bluePrimary, Colors.blue],

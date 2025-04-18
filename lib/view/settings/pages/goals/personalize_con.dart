@@ -131,7 +131,7 @@ class _PersonalizeConPageState extends State<PersonalizeConPage> {
                 }).toList(),
               ),
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: TextButton.icon(
                 style: TextButton.styleFrom(

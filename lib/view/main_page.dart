@@ -4,13 +4,12 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/view/functions/alternative.dart';
 import 'package:nutrito/view/functions/compare.dart';
-import 'package:nutrito/view/functions/gen/gen_chat.dart';
+import 'package:nutrito/view/functions/display/chat.dart';
 import 'package:nutrito/view/functions/nutrilization.dart';
 import 'package:nutrito/view/functions/smartList.dart';
 import 'package:nutrito/view/home/components/drawer.dart';
 import 'package:nutrito/view/home/home.dart';
 import 'package:nutrito/view/home/components/opener.dart';
-import 'package:nutrito/view/media/social.dart';
 
 import 'package:nutrito/view/options/scanHistory.dart';
 import 'package:nutrito/view/searchs/search.dart';
@@ -53,7 +52,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     HomePage(),
     SearchPage(),
     const Center(child: Text("Camera Page Placeholder")),
-    const SocialMediaPage(),
+    // const SocialMediaPage(),
     SettingsPage(),
     // ComaparePage(),
     // NutriStateNavigate(),
@@ -182,7 +181,7 @@ class _MainPageState extends ConsumerState<MainPage> {
             context,
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
-                  GenChatPage(),
+                  ChatScreen(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(0.0, 1.0);
@@ -227,10 +226,10 @@ class _MainPageState extends ConsumerState<MainPage> {
             icon: ImageIcon(AssetImage('assets/image/home/camera.png')),
             label: 'Camera',
           ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/image/home/message.png')),
-            label: 'Message',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: ImageIcon(AssetImage('assets/image/home/message.png')),
+          //   label: 'Message',
+          // ),
           BottomNavigationBarItem(
             icon: ImageIcon(AssetImage('assets/image/home/profile.png')),
             label: 'Profile',

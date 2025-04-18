@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:nutrito/data/model/ImagePost.dart';
 import 'package:nutrito/view/media/sections/allpost.dart';
-import 'package:nutrito/view/media/sections/feed.dart';
 import 'package:nutrito/view/media/sections/popular.dart';
 import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';

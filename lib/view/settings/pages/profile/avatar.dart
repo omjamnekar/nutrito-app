@@ -6,9 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutrito/data/model/auth.dart';
-import 'package:nutrito/data/model/sections/settings.dart';
 import 'package:nutrito/data/storage/user_Data.dart';
-import 'package:nutrito/network/provider/user.dart';
 import 'package:nutrito/util/theme/color.dart';
 import 'package:nutrito/view/settings/pages/profile/setup.dart';
 
@@ -174,7 +172,7 @@ class _AvatarPageState extends State<AvatarPage> {
               "Upload Image",
               style: GoogleFonts.poppins(),
             ),
-            content: Container(
+            content: SizedBox(
               height: MediaQuery.of(context).size.height / 2.8,
               child: Column(
                 children: [
@@ -266,7 +264,7 @@ class _AvatarPageState extends State<AvatarPage> {
 extension TextStyleExtension on Text {
   Text withStyleOf() {
     return Text(
-      this.data ?? '',
+      data ?? '',
       style: GoogleFonts.poppins(fontSize: 20),
     );
   }

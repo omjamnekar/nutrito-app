@@ -92,7 +92,7 @@ class _InstantAlertSettingsPageState extends State<InstantAlertSettingsPage> {
               },
             ),
             Spacer(),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: TextButton(
                 onPressed: _saveSettings,

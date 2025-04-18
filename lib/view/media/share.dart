@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/data/model/auth.dart';
 import 'package:nutrito/data/model/gen/nutri_com_state.dart';
@@ -53,7 +52,7 @@ class _SharePostState extends State<SharePost> {
               if (isSave) {
                 await PostController()
                     .sendPostAll(postModeldata, descriptionController.text);
-                await Get.snackbar("Post", "Post shared successfully!");
+                Get.snackbar("Post", "Post shared successfully!");
                 Navigator.pop(context);
               }
             },
@@ -147,9 +146,10 @@ class _SharePostState extends State<SharePost> {
                           setState(() {
                             isSave = true;
                           });
-                          if (isSave)
+                          if (isSave) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("content is saved")));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please fill both fields")),

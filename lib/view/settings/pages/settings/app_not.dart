@@ -34,6 +34,8 @@ class NotificationController extends StateNotifier<Map<String, bool>> {
 }
 
 class NotificationSettingsPage extends ConsumerWidget {
+  const NotificationSettingsPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifications = ref.watch(notificationProvider);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/theme/color.dart';
@@ -27,6 +26,8 @@ class LanguageController extends StateNotifier<String> {
 }
 
 class SupportLanguagePage extends ConsumerWidget {
+  const SupportLanguagePage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedLanguage = ref.watch(languageProvider);

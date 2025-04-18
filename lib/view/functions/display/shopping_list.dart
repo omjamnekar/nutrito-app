@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/data/model/gen/smart/com_smart.dart';
 import 'package:nutrito/data/storage/smart.dart';
+import 'package:nutrito/util/theme/color.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
@@ -32,23 +34,41 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
 
     setState(() {
       if (data != null) comSmartList = data;
-      isLoading = false; // Data has been initialized
+      isLoading = false;
     });
   }
 
   Future<void> removeDataList(String id) async {
     await shoppingListPreferences.removeData(id);
+    await initialDataSetup();
 
-    setState(() {});
+    // setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+      return FutureBuilder(
+        future: Future.delayed(Duration(seconds: 1)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: Text(
+                  "Let's start making shoppnig list",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                ),
+              ),
+            );
+          }
+        },
       );
     }
 
@@ -73,7 +93,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             if (snapshot.data != null &&
                 snapshot.data!.smartShoppingListManager.isNotEmpty &&
                 snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.data!.smartShoppingListManager.length);
               return (snapshot.data != null &&
                       snapshot.data!.smartShoppingListManager.isNotEmpty)
                   ? PackageManage(
@@ -84,30 +103,47 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                   : Center(child: Text("No data available"));
             }
 
-            return ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(10),
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Shimmer(
-                      loop: 10,
-                      gradient: LinearGradient(
-                        colors: [Colors.grey[300]!, Colors.grey[100]!],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+            return FutureBuilder(
+              future: Future.delayed(Duration(seconds: 1)),
+              builder: (context, snapshot) {
+                if (!(snapshot.connectionState == ConnectionState.waiting)) {
+                  return Scaffold(
+                    body: Center(
+                      child: Text(
+                        "Let's start making shoppnig list",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
                       ),
-                      child: Container(
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(10),
+                        width: double.infinity,
+                        height: 200,
                         decoration: BoxDecoration(
-                          color: Colors.amber,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                      )),
-                );
+                        child: Shimmer(
+                            loop: 10,
+                            gradient: LinearGradient(
+                              colors: [Colors.grey[300]!, Colors.grey[100]!],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            )),
+                      );
+                    },
+                  );
+                }
               },
             );
           },
@@ -135,8 +171,6 @@ class PackageManage extends StatefulWidget {
 class _PackageManageState extends State<PackageManage> {
   @override
   Widget build(BuildContext context) {
-    print(
-        "from object ${widget.comSmartList.smartShoppingListManager.first.smartItems}");
     final data = widget.comSmartList;
 
     return Column(
@@ -186,8 +220,12 @@ class _PackageManageState extends State<PackageManage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ShoppingListDetail(
-                                        dataman: widget.comSmartList
-                                            .smartShoppingListManager[index]),
+                                      dataman: widget.comSmartList
+                                          .smartShoppingListManager[index],
+                                      onClick: (id) {
+                                        widget.onClickDelete(id);
+                                      },
+                                    ),
                                   ));
                             },
                             leading: Container(
@@ -239,13 +277,15 @@ class _PackageManageState extends State<PackageManage> {
 
 class ShoppingListDetail extends StatefulWidget {
   SmartShoppingListManager dataman;
-  ShoppingListDetail({super.key, required this.dataman});
+  Function(String) onClick;
+  ShoppingListDetail({super.key, required this.dataman, required this.onClick});
 
   @override
   State<ShoppingListDetail> createState() => _ShoppingListDetailState();
 }
 
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
+  bool isAllDone = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -265,6 +305,31 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap(30),
+            isAllDone
+                ? Flexible(
+                    flex: 1,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                      height: 60,
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        color: ColorManager.greenPrimary,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Shopping is Done!!",
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
             Flexible(
               flex: 1,
               child: Text(
@@ -274,19 +339,21 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
             ),
             Text(
               "Smart List",
-              style: GoogleFonts.poppins(fontSize: 25),
+              style: GoogleFonts.poppins(fontSize: 17),
             ),
             Gap(10),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(61, 68, 255, 180),
+                    border: Border.all(
+                      color: Color.fromARGB(61, 68, 255, 180),
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(20)),
                 child: ListView.builder(
                   itemCount: widget.dataman.smartItems.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     bool isExpanded = false;
                     return GestureDetector(
@@ -315,6 +382,15 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                 setState(() {
                                   widget.dataman.smartItems[index].isChecked =
                                       value!;
+
+                                  isAllDone = (widget.dataman.smartItems.every(
+                                              (item) =>
+                                                  item.isChecked == true) ||
+                                          widget.dataman.smartItems.isEmpty) &&
+                                      (widget.dataman.cartItems.isEmpty ||
+                                          widget.dataman.cartItems.every(
+                                              (item) =>
+                                                  item.isChecked == true));
                                 });
                               },
                             ),
@@ -326,49 +402,69 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 ),
               ),
             ),
-            Gap(40),
+            Gap(30),
             Text(
               "Cart Items",
-              style: GoogleFonts.poppins(fontSize: 25),
+              style: GoogleFonts.poppins(fontSize: 17),
             ),
             Gap(10),
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(59, 114, 255, 227),
+                    border: Border.all(
+                      color: Color.fromARGB(61, 68, 255, 180),
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(20)),
-                child: ListView.builder(
-                  itemCount: widget.dataman.cartItems.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            widget.dataman.cartItems[index].imageUrl!,
-                            width: 50,
-                            height: 50,
-                          ),
-                          Gap(20),
-                          Text(widget.dataman.cartItems[index].name!),
-                          Spacer(),
-                          Checkbox(
-                            value: widget.dataman.cartItems[index].isChecked ??
-                                false,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                widget.dataman.cartItems[index].isChecked =
-                                    value!;
-                              });
-                            },
-                          ),
-                        ],
+                child: widget.dataman.cartItems.length != 0
+                    ? ListView.builder(
+                        itemCount: widget.dataman.cartItems.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  widget.dataman.cartItems[index].imageUrl!,
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                Gap(20),
+                                Text(widget.dataman.cartItems[index].name!),
+                                Spacer(),
+                                Checkbox(
+                                  value: widget
+                                          .dataman.cartItems[index].isChecked ??
+                                      false,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      widget.dataman.cartItems[index]
+                                          .isChecked = value!;
+
+                                      isAllDone = (widget.dataman.smartItems
+                                                  .every((item) =>
+                                                      item.isChecked == true) ||
+                                              widget.dataman.smartItems
+                                                  .isEmpty) &&
+                                          (widget.dataman.cartItems.isEmpty ||
+                                              widget.dataman.cartItems.every(
+                                                  (item) =>
+                                                      item.isChecked == true));
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          "No list of product!",
+                        ),
                       ),
-                    );
-                  },
-                ),
               ),
             )
           ],
@@ -382,7 +478,19 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
               child: Container(
                 color: Colors.white70,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onClick(widget.dataman.id);
+                    Navigator.pop(context);
+                    Get.snackbar(
+                      "Deleted",
+                      "The shopping list has been deleted successfully.",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.redAccent,
+                      colorText: Colors.white,
+                      margin: EdgeInsets.only(bottom: 10),
+                      duration: Duration(seconds: 2),
+                    );
+                  },
                   child: Text(
                     "Delete",
                     style: GoogleFonts.poppins(fontSize: 20),
@@ -395,7 +503,19 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
               child: Container(
                 color: const Color.fromARGB(237, 40, 255, 165),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.snackbar(
+                      "Shopping complete",
+                      "Congratulations! You've completed your shopping list.",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.greenAccent,
+                      colorText: Colors.black45,
+                      margin: EdgeInsets.only(bottom: 10),
+                      duration: Duration(seconds: 2),
+                    );
+                    widget.onClick(widget.dataman.id);
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     "Done",
                     style: GoogleFonts.poppins(fontSize: 20),

@@ -66,7 +66,9 @@ class _GenLoadingState extends State<GenLoading> {
           Gap(40),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: LinearProgressIndicator(),
+            child: LinearProgressIndicator(
+              color: ColorManager.bluePrimary,
+            ),
           ),
         ],
       ),

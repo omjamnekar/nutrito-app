@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/theme/color.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 final Uri _apppGiturl = Uri.parse('https://github.com/omjamnekar/nutrito-app');
 
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

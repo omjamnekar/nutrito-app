@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -18,11 +17,10 @@ import 'package:nutrito/network/provider/nutrilization.dart';
 import 'package:nutrito/view/functions/display/alternative/alternative_out.dart';
 import 'package:nutrito/view/settings/components/graphs/circle_graph.dart';
 import 'package:nutrito/util/theme/color.dart';
-import 'package:path_provider/path_provider.dart';
 
 class NutriOutPage extends ConsumerStatefulWidget {
   Map<String, bool> options;
-  NutriOutPage({required this.options}) : super();
+  NutriOutPage({super.key, required this.options});
 
   @override
   ConsumerState<NutriOutPage> createState() => _NutriOutPageState();
@@ -809,7 +807,7 @@ class RatioSection extends StatelessWidget {
                         fontSize: 15),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 100,
                   child: Text(
                     "Qty.",
@@ -834,7 +832,7 @@ class RatioSection extends StatelessWidget {
                     ];
                   }).toList() ??
                   [];
-              return Container(
+              return SizedBox(
                 height: (nutriAn.length) * 70,
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),

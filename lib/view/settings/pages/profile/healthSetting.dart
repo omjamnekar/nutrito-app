@@ -3,6 +3,8 @@ import 'package:nutrito/util/theme/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HealthGuideSettings extends StatefulWidget {
+  const HealthGuideSettings({super.key});
+
   @override
   _HealthGuideSettingsState createState() => _HealthGuideSettingsState();
 }

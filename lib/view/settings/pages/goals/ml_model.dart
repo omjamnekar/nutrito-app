@@ -4,6 +4,8 @@ import 'package:nutrito/util/data/models.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class MLModelShowcase extends StatelessWidget {
+  const MLModelShowcase({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/data/settings.dart';
 import 'package:get/get.dart';
-import 'package:nutrito/util/theme/color.dart';
 import 'package:nutrito/view/settings/pages/profile/about.dart';
 
 import 'package:nutrito/view/settings/pages/profile/cooking.dart';

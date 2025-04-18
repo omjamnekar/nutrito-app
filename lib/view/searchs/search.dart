@@ -140,7 +140,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     Gap(5),
                     // Search Input Field
                     if (selectedElement.isNotEmpty)
-                      Container(
+                      SizedBox(
                         height: 35,
                         width: double.infinity,
                         child: ListView.builder(
@@ -243,7 +243,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                                 children: [
                                   Flexible(
                                     flex: 2,
-                                    child: Container(
+                                    child: SizedBox(
                                       width: double.maxFinite,
                                       child: Image.network(
                                         item.imageUrl ??

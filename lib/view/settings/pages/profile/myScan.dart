@@ -3,6 +3,8 @@ import 'package:nutrito/util/theme/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanSettingsPage extends StatefulWidget {
+  const ScanSettingsPage({super.key});
+
   @override
   _ScanSettingsPageState createState() => _ScanSettingsPageState();
 }

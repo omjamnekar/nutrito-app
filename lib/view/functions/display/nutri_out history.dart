@@ -11,14 +11,13 @@ import 'package:nutrito/data/model/gen/initial_pr.dart';
 import 'package:nutrito/data/model/gen/nutri_com_state.dart';
 import 'package:nutrito/data/model/gen/ratio_pr.dart';
 
-import 'package:nutrito/network/provider/nutrilization.dart';
 import 'package:nutrito/view/settings/components/graphs/circle_graph.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class NutriOutPageHistory extends ConsumerStatefulWidget {
   NutriComState nutristate;
 
-  NutriOutPageHistory({required this.nutristate}) : super();
+  NutriOutPageHistory({super.key, required this.nutristate});
 
   @override
   ConsumerState<NutriOutPageHistory> createState() =>
@@ -311,28 +310,27 @@ class IntitalDataSection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (file != null)
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: FileImage(
-                    file,
-                  ),
-                  colorFilter: ColorFilter.mode(
-                    ColorManager.bluePrimary.withOpacity(0.8),
-                    BlendMode.color,
-                  ),
-                  fit: BoxFit.cover,
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(
+                  file,
                 ),
-                color: ColorManager.bluePrimary,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorManager.bluePrimary,
+                colorFilter: ColorFilter.mode(
+                  ColorManager.bluePrimary.withOpacity(0.8),
+                  BlendMode.color,
                 ),
+                fit: BoxFit.cover,
               ),
-              width: MediaQuery.of(context).size.width,
-              height: 200,
+              color: ColorManager.bluePrimary,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: ColorManager.bluePrimary,
+              ),
             ),
+            width: MediaQuery.of(context).size.width,
+            height: 200,
+          ),
           Gap(10),
           SizedBox(
             height: 200,
@@ -702,7 +700,7 @@ class RatioSection extends StatelessWidget {
                         fontSize: 15),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 100,
                   child: Text(
                     "Qty.",
@@ -727,7 +725,7 @@ class RatioSection extends StatelessWidget {
                     ];
                   }).toList() ??
                   [];
-              return Container(
+              return SizedBox(
                 height: (nutriAn.length) * 70,
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),

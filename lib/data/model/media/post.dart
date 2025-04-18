@@ -1,4 +1,3 @@
-import 'package:nutrito/data/model/gen/com.dart';
 import 'package:nutrito/data/model/gen/nutri_com_state.dart';
 import 'package:uuid/uuid.dart';
 

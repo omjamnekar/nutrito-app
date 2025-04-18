@@ -7,7 +7,7 @@ final appVersionProvider = FutureProvider<PackageInfo>((ref) async {
 });
 
 class AppVersionPage extends ConsumerStatefulWidget {
-  const AppVersionPage({Key? key}) : super(key: key);
+  const AppVersionPage({super.key});
 
   @override
   _AppVersionPageState createState() => _AppVersionPageState();
