@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:nutrito/util/theme/color.dart';
 
-Future<void> filter(
-    BuildContext context, Function(List<String> filterOption) onSelected) async {
+Future<void> filter(BuildContext context,
+    Function(List<String> filterOption) onSelected) async {
   List<String> nutritionalFoodTypes = [
     "Protein-Based Foods",
     "Vitamins & Supplements",
@@ -36,7 +35,7 @@ Future<void> filter(
         builder: (context, setState) {
           return AlertDialog(
             title: Text('Filter'),
-            content: Container(
+            content: SizedBox(
               width: double.maxFinite,
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -71,7 +70,7 @@ Future<void> filter(
                           children: [
                             Icon(foodTypeIcons[index]),
                             Text(
-                              '${nutritionalFoodTypes[index]}',
+                              nutritionalFoodTypes[index],
                               textAlign: TextAlign.center,
                             ),
                           ],
@@ -102,7 +101,7 @@ Future<void> filter(
               TextButton(
                 child: Text('Ok'),
                 onPressed: () async {
-                await  onSelected(selectedElement
+                  await onSelected(selectedElement
                       .where((element) => element.isNotEmpty)
                       .toList());
                   Navigator.pop(context);

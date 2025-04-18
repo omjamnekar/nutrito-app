@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppAccuracySettingsPage extends StatefulWidget {
+  const AppAccuracySettingsPage({super.key});
+
   @override
   _AppAccuracySettingsPageState createState() =>
       _AppAccuracySettingsPageState();

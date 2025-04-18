@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/data/model/media/post.dart';
 import 'package:nutrito/util/theme/color.dart';
@@ -8,7 +7,7 @@ import 'package:shimmer/shimmer.dart';
 
 class CommentSection extends StatefulWidget {
   PostModel postModel;
-  CommentSection({required this.postModel}) : super();
+  CommentSection({super.key, required this.postModel});
 
   @override
   State<CommentSection> createState() => _CommentSectionState();
@@ -24,7 +23,7 @@ class _CommentSectionState extends State<CommentSection> {
         children: [
           Flexible(
             flex: 3,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: postModelcon.postImageUrl != null
                   ? Image.network(
@@ -74,7 +73,7 @@ class _CommentSectionState extends State<CommentSection> {
           ),
           Flexible(
             flex: 7,
-            child: postModelcon.reply != null && postModelcon.reply!.length != 0
+            child: postModelcon.reply != null && postModelcon.reply!.isNotEmpty
                 ? Container(
                     padding: EdgeInsets.all(10),
                     child: ListView.builder(

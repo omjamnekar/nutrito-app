@@ -10,7 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:nutrito/util/theme/theme.dart';
 import 'package:nutrito/view/connection/navigator.dart';
 import 'package:nutrito/view/functions/nutrilization.dart';
-import 'package:nutrito/view/media/sections/allpost.dart';
 import 'network/firebase/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

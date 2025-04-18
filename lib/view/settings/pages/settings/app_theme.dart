@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrito/util/theme/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppThemeSettings extends ConsumerStatefulWidget {
-  const AppThemeSettings({Key? key}) : super(key: key);
+  const AppThemeSettings({super.key});
 
   @override
   _AppThemeSettingsState createState() => _AppThemeSettingsState();

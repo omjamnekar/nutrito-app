@@ -63,7 +63,7 @@ class GoalAlignmentReportPage extends StatelessWidget {
                 },
               ),
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: TextButton(
                 onPressed: () => Navigator.pop(context),

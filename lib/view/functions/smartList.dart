@@ -49,7 +49,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen>
   void initState() {
     super.initState();
     _initLoadData();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
   }
 
   @override
@@ -77,54 +77,15 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 70,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 231, 231, 231),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                dividerColor: Colors.transparent,
-                indicatorColor: Colors.transparent,
-                labelColor: ColorManager.bluePrimary,
-                tabs: const [
-                  Tab(
-                    icon: Icon(Icons.shopping_cart_outlined),
-                    child: Text("Shopping List"),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.calendar_month),
-                    child: Text("Meal Planner"),
-                  ),
-                ],
-              ),
+            SmartShoppingSection(
+              isGenOpen: (p0) {
+                print(p0);
+                setState(() {
+                  closeBottomSearchBar = p0;
+                });
+              },
             ),
-            SizedBox(
-              height: 1150,
-              child: TabBarView(
-                controller: _tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  SmartShoppingSection(
-                    isGenOpen: (p0) {
-                      print(p0);
-                      setState(() {
-                        closeBottomSearchBar = p0;
-                      });
-                    },
-                  ),
-                  SmartShoppingSection(
-                    isGenOpen: (p0) {
-                      setState(() {
-                        closeBottomSearchBar = p0;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
+            Gap(20),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.centerLeft,
@@ -136,7 +97,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen>
                 ),
               ),
             ),
-            Gap(10),
+            Gap(20),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: allItems.length * 70 + 10,
@@ -535,6 +496,8 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
                           } else {
                             isGenSelected = true;
                           }
+
+                          widget.isGenOpen(isGenSelected);
                           selectedData = value ?? "";
                         });
                       }),
@@ -562,9 +525,35 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
                 ],
               ),
             ),
-
+            Gap(10),
             isGenSelected
-                ? ChatSection()
+                ? Column(
+                    children: [
+                      ChatSection(
+                        dataOnClick: (p0) => setShoppingList(p0, []),
+                      ),
+                      Gap(10),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 0, 42, 34),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: TextButton(
+                          onPressed: () =>
+                              setShoppingList(smartItems, cartItems),
+                          child: Text(
+                            "Set Shopping List",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 : Column(
                     children: [
                       SizedBox(
@@ -836,13 +825,12 @@ class _SmartShoppingSectionState extends ConsumerState<SmartShoppingSection> {
                   setTime: Timestamp.fromDate(seletedTime),
                 );
 
-                print(ComSmartList(
-                        smartShoppingListManager: [smartShoppingListManager])
-                    .toJsonString());
-
-                await shoppingListPreferences.setData(ComSmartList(
-                    smartShoppingListManager: [smartShoppingListManager]));
+                await shoppingListPreferences.setData(smartShoppingListManager);
                 Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text("Your list has been saved successfully")),
+                );
               },
               child: Text("Save"),
             ),

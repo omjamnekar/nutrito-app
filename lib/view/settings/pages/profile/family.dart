@@ -4,6 +4,8 @@ import 'package:nutrito/util/theme/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FamilyHealthPage extends StatefulWidget {
+  const FamilyHealthPage({super.key});
+
   @override
   _FamilyHealthPageState createState() => _FamilyHealthPageState();
 }
@@ -182,7 +184,7 @@ class _FamilyHealthPageState extends State<FamilyHealthPage> {
               SizedBox(height: 20),
               familyMembers.isEmpty
                   ? Center(child: Text('No family members added'))
-                  : Container(
+                  : SizedBox(
                       height: 500,
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),

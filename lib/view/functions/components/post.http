@@ -1,0 +1,7 @@
+POST 
+https://nutrito-prompt-server-muot.vercel.app/api/smartlist
+Content-Type: application/json
+
+{
+    "message":"diet"
+}   

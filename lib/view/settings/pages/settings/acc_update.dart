@@ -7,7 +7,9 @@ class AppUpdatePage extends StatelessWidget {
   final String latestVersion = "2.0.0"; // Replace with actual latest version
   final String currentVersion = "1.0.0"; // Replace with actual app version
   final String updateUrl =
-      "https://play.google.com/store/apps/details?id=com.example.app"; // Replace with your app link
+      "https://play.google.com/store/apps/details?id=com.example.app";
+
+  const AppUpdatePage({super.key}); // Replace with your app link
 
   @override
   Widget build(BuildContext context) {

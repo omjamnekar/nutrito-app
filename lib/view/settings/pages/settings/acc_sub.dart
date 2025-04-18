@@ -6,6 +6,8 @@ import 'package:nutrito/util/theme/color.dart';
 import 'package:nutrito/view/settings/pages/settings/payment.dart';
 
 class SubscriptionPage extends StatefulWidget {
+  const SubscriptionPage({super.key});
+
   @override
   _SubscriptionPageState createState() => _SubscriptionPageState();
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RazorpayService {
   late Razorpay _razorpay;
+  final status = PaymentStatusManager._instance;
 
   RazorpayService() {
     _razorpay = Razorpay();
@@ -45,20 +47,56 @@ class RazorpayService {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
     debugPrint('Payment Success: ${response.paymentId}');
-    Get.snackbar("info", "you have successfully purchase subscription");
+    status.savePaymentStatus(true).then(
+      (value) {
+        Get.snackbar("info", "you have successfully purchase subscription");
+      },
+    );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
     debugPrint('Payment Error: ${response.code} - ${response.message}');
+    status.savePaymentStatus(false).then(
+      (value) {
+        Get.snackbar("info", "payment is fail");
+      },
+    );
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet is selected
     debugPrint('External Wallet: ${response.walletName}');
+    status.savePaymentStatus(false).then(
+      (value) {
+        Get.snackbar("info", "Internal Error in payment transaction");
+      },
+    );
   }
 
   void dispose() {
     _razorpay.clear();
+  }
+}
+
+class PaymentStatusManager {
+  static final PaymentStatusManager _instance =
+      PaymentStatusManager._internal();
+  static const String _paymentStatusKey = 'payment_status';
+
+  factory PaymentStatusManager() {
+    return _instance;
+  }
+
+  PaymentStatusManager._internal();
+
+  Future<void> savePaymentStatus(bool isPaymentDone) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_paymentStatusKey, isPaymentDone);
+  }
+
+  Future<bool> getPaymentStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_paymentStatusKey) ?? false;
   }
 }

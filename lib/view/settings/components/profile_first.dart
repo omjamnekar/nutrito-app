@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrito/data/model/sections/settings.dart';
-import 'package:nutrito/network/provider/user.dart';
 import 'package:nutrito/view/settings/components/graphs/circle_graph.dart';
 import 'package:nutrito/view/settings/components/graphs/linear.dart';
 import 'package:nutrito/view/settings/components/graphs/semi_circle.dart';

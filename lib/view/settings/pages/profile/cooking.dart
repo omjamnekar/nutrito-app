@@ -5,6 +5,8 @@ import 'package:nutrito/util/theme/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CookingAISettingsPage extends StatefulWidget {
+  const CookingAISettingsPage({super.key});
+
   @override
   _CookingAISettingsPageState createState() => _CookingAISettingsPageState();
 }

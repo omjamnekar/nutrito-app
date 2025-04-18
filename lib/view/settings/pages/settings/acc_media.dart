@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class SocialMediaIntegrationPage extends StatelessWidget {
+  const SocialMediaIntegrationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

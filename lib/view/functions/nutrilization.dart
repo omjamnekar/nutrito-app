@@ -17,7 +17,7 @@ import 'package:nutrito/util/extensions/extensions.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class NutriStateNavigate extends StatefulWidget {
-  NutriStateNavigate() : super();
+  const NutriStateNavigate({super.key});
 
   @override
   State<NutriStateNavigate> createState() => _NutriStateNavigateState();

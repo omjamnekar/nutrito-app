@@ -40,8 +40,8 @@ final profileProvider = StateNotifierProvider<ProfileProvider, Profile>(
 
 class ProfileShareStore {
   Future<Profile> loadData() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    final data = await _pref.getString("profile");
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final data = pref.getString("profile");
     if (data != null) {
       return Profile.fromMap(jsonDecode(data));
     }
@@ -49,7 +49,7 @@ class ProfileShareStore {
   }
 
   Future<void> updateData(Profile profile) async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    await _pref.setString("profile", jsonEncode(profile.toMap()));
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString("profile", jsonEncode(profile.toMap()));
   }
 }

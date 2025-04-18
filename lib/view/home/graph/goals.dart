@@ -260,7 +260,7 @@ class _GoalHomeSectionsState extends State<GoalHomeSections>
             ),
             Gap(20),
             SizedBox(
-              height: 1600,
+              height: 1650,
               width: MediaQuery.of(context).size.width,
               child: TabBarView(
                   controller: _tabController,
@@ -319,6 +319,7 @@ class ActiveContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -326,7 +327,7 @@ class ActiveContainer extends StatelessWidget {
           children: _itemList
               .map(
                 (e) => Container(
-                  margin: EdgeInsets.only(bottom: 5),
+                  margin: EdgeInsets.only(bottom: 10),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: HexColor(e["primaryColor"]),

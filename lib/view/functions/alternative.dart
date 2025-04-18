@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -11,6 +11,9 @@ import 'package:nutrito/network/controller/alternative.dart';
 import 'package:nutrito/view/functions/display/alternative/alternative_image.dart';
 
 import 'package:nutrito/util/theme/color.dart';
+import 'package:nutrito/view/functions/display/loading.dart';
+import 'package:nutrito/view/settings/pages/settings/acc_sub.dart';
+import 'package:nutrito/view/settings/pages/settings/payment.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AlternativePage extends ConsumerStatefulWidget {
@@ -163,24 +166,79 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                                       content: Text("image is not selected")));
                               return;
                             }
-
-                            await ctrl
-                                .generateImageAlternative(fileImage, context)
-                                .then((value) {
-                              if (value.isNotEmpty) {
-                                Navigator.push(
+                            final sd = PaymentStatusManager();
+                            final data = await sd.getPaymentStatus();
+                            if (data) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GenLoading()),
+                              );
+                              Future.delayed(
+                                Duration(milliseconds: 2000),
+                                () {
+                                  Navigator.pop(context);
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          AlternativeImagePage(
-                                        alternative: value,
+                                        builder: (context) =>
+                                            AlternativeImagePage()),
+                                  );
+                                },
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Subscription Required",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ));
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("server error")));
-                              }
-                            });
+                                    ),
+                                    content: Text(
+                                      "You need to subscribe to use this feature. Would you like to proceed?",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "Cancel",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SubscriptionPage(),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          "Subscribe",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           },
                           iconAlignment: IconAlignment.end,
                           icon: Icon(Icons.arrow_right_alt_sharp,
@@ -208,7 +266,7 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
-                            return Container(
+                            return SizedBox(
                               height: (snapshot.data!.length / 2) * 100,
                               child: GridView.builder(
                                 physics: NeverScrollableScrollPhysics(),
@@ -396,7 +454,7 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                               ),
                             );
                           } else {
-                            return Container(
+                            return SizedBox(
                               height: (10 / 2) * 150,
                               child: GridView.builder(
                                 itemCount: 20,

@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutrito/util/theme/color.dart';
 
 class StorageManagementPage extends StatefulWidget {
+  const StorageManagementPage({super.key});
+
   @override
   _StorageManagementPageState createState() => _StorageManagementPageState();
 }

@@ -54,7 +54,7 @@ class _NutriOutPageState extends ConsumerState<ComOutPage> {
               final nutriFact = snapshot.data;
               print(jsonEncode(nutriFact!.compareProducts));
 
-              if (nutriFact != null && nutriFact.compareProducts != null) {
+              if (nutriFact.compareProducts != null) {
                 return ComposerComapareSection(
                   compareManager: nutriFact,
                 );
@@ -72,85 +72,109 @@ class _NutriOutPageState extends ConsumerState<ComOutPage> {
 }
 
 class ComposerComapareSection extends StatelessWidget {
-  CompareManager compareManager;
-  ComposerComapareSection({super.key, required this.compareManager});
+  final CompareManager compareManager;
+  const ComposerComapareSection({super.key, required this.compareManager});
 
   @override
   Widget build(BuildContext context) {
+    final data = compareManager.compareProducts;
+    final summary = data?.comparisonSummary;
+
     return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 200,
-            padding: EdgeInsets.all(5),
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            colorFilter: ColorFilter.mode(
-                              ColorManager.bluePrimary.withOpacity(0.8),
-                              BlendMode.color,
-                            ),
-                            fit: BoxFit.cover,
-                            image: compareManager.file1 != null
-                                ? FileImage(compareManager.file1!)
-                                : AssetImage("assets/image/no_image.jpg"))),
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            colorFilter: ColorFilter.mode(
-                              ColorManager.bluePrimary.withOpacity(0.8),
-                              BlendMode.color,
-                            ),
-                            fit: BoxFit.cover,
-                            image: compareManager.file2 != null
-                                ? FileImage(compareManager.file2!)
-                                : AssetImage("assets/image/no_image.jpg"))),
-                  ),
-                ),
-              ],
-            ),
+          /// Product Images
+          Row(
+            children: [
+              Expanded(
+                child: _buildImageCard(compareManager.file1),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildImageCard(compareManager.file2),
+              ),
+            ],
           ),
 
-          //////////////////////////////////////////
+          const SizedBox(height: 24),
 
-          Text(compareManager.compareProducts?.toJson().toString() ?? ""),
+          /// Key Differences
+          if (summary?.keyDifferences != null &&
+              summary!.keyDifferences!.isNotEmpty) ...[
+            const Text("Key Differences",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            ...summary.keyDifferences!.map((diff) => Card(
+                  child: ListTile(
+                    leading: Icon(Icons.compare_arrows),
+                    title: Text(diff.aspect ?? ""),
+                    subtitle: Text(
+                      "Product 1: ${diff.product1 ?? "N/A"}\nProduct 2: ${diff.product2 ?? "N/A"}",
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                )),
+            const SizedBox(height: 24),
+          ],
 
-          Text("Key Similarities",
+          /// Key Similarities
+          if (summary?.keySimilarities != null &&
+              summary!.keySimilarities!.isNotEmpty) ...[
+            const Text("Key Similarities",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            ...summary.keySimilarities!.map((sim) => Card(
+                  child: ListTile(
+                    leading:
+                        Icon(Icons.check_circle_outline, color: Colors.green),
+                    title: Text(sim.aspect ?? ""),
+                    subtitle: Text(sim.value ?? "N/A"),
+                  ),
+                )),
+            const SizedBox(height: 24),
+          ],
+
+          /// Conclusion
+          const Text("Overall Conclusion",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(height: 8),
-          ...compareManager.compareProducts?.comparisonSummary?.keySimilarities
-                  ?.map((similarity) => ListTile(
-                        title: Text(similarity.aspect ?? ""),
-                        subtitle: Text(similarity.value ?? "s"),
-                      )) ??
-              [],
-          SizedBox(height: 16),
-          Text("Overall Conclusion",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Card(
-            color: Colors.blueAccent.shade100,
+            color: Colors.blue.shade100,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                compareManager.compareProducts?.comparisonSummary
-                        ?.overallComparisonConclusion ??
-                    "",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                summary?.overallComparisonConclusion ??
+                    "No conclusion available.",
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  /// Widget to show image or placeholder
+  Widget _buildImageCard(dynamic file) {
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
+          colorFilter: ColorFilter.mode(
+            ColorManager.bluePrimary.withOpacity(0.7),
+            BlendMode.color,
+          ),
+          fit: BoxFit.cover,
+          image: file != null
+              ? FileImage(file)
+              : const AssetImage("assets/image/no_image.jpg") as ImageProvider,
+        ),
       ),
     );
   }

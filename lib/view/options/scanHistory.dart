@@ -12,7 +12,7 @@ import 'package:nutrito/view/functions/display/nutri_out%20history.dart';
 class ScanHistory extends StatefulWidget {
   final Function() oncencel;
 
-  ScanHistory({
+  const ScanHistory({
     super.key,
     required this.oncencel,
   });
