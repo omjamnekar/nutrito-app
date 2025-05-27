@@ -7,19 +7,18 @@ Nutrito is a mobile application designed to help users make informed food choice
 ## App Screenshots
 
 Below are screenshots of specific pages from the Nutrito mobile application:
-
-| Page Name             | Screenshot Preview                          |
-|-----------------------|---------------------------------------------|
-| Alternative Suggestions | ![Alternative Suggestions](assets/MOBILE/alternative.png)  |
-| Home                  | ![Home](/assets/MOBILE/Home.png)                    |
-| Login                 | ![Login](assets/MOBILE/login.png)                  |
-| Nutrilization         | ![Nutrilization](assets/MOBILE/nutrilization.png)  |
-| NutriOut              | ![NutriOut](assets/MOBILE/nutriOut.png)            |
-| Profile               | ![Profile](assets/MOBILE/profile.png)              |
-| Registration          | ![Registration](assets/MOBILE/registration.png)    |
-| Search                | ![Search](assets/MOBILE/Search.png)                |
-| Shopping List         | ![Shopping List](assets/MOBILE/shopping.png)       |
-| Welcome               | ![Welcome](assets/MOBILE/welcom.png)               |
+| Page Name             | Screenshot Preview                      |
+|-----------------------|-----------------------------------------|
+| Alternative Suggestions | <img src="assets/MOBILE/alternative.png" alt="Alternative Suggestions" width="180"/> |
+| Home                  | <img src="assets/MOBILE/Home.png" alt="Home" width="180"/>           |
+| Login                 | <img src="assets/MOBILE/login.png" alt="Login" width="180"/>         |
+| Nutrilization         | <img src="assets/MOBILE/nutrilization.png" alt="Nutrilization" width="180"/> |
+| NutriOut              | <img src="assets/MOBILE/nutriOut.png" alt="NutriOut" width="180"/>   |
+| Profile               | <img src="assets/MOBILE/profile.png" alt="Profile" width="180"/>     |
+| Registration          | <img src="assets/MOBILE/registration.png" alt="Registration" width="180"/> |
+| Search                | <img src="assets/MOBILE/Search.png" alt="Search" width="180"/>       |
+| Shopping List         | <img src="assets/MOBILE/shopping.png" alt="Shopping List" width="180"/> |
+| Welcome               | <img src="assets/MOBILE/welcom.png" alt="Welcome" width="180"/>      |
 
 ## Features
 
