@@ -26,7 +26,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage>
   final TextEditingController usernameController =
       TextEditingController(text: "om");
   final TextEditingController passwordController =
-      TextEditingController(text: "omJAMNEKAR@1234");
+      TextEditingController(text: "omJKAMN@555");
 
   @override
   void initState() {

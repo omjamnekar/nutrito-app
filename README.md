@@ -2,6 +2,25 @@
 
 Nutrito is a mobile application designed to help users make informed food choices by analyzing product ingredients and suggesting healthier alternatives. With advanced image recognition technology, the app provides instant nutritional insights, allergen warnings, and personalized recommendations.
 
+
+
+## App Screenshots
+
+Below are screenshots of specific pages from the Nutrito mobile application:
+
+| Page Name             | Screenshot Preview                          |
+|-----------------------|---------------------------------------------|
+| Alternative Suggestions | ![Alternative Suggestions](assets/MOBILE/alternative.png)  |
+| Home                  | ![Home](/assets/MOBILE/Home.png)                    |
+| Login                 | ![Login](assets/MOBILE/login.png)                  |
+| Nutrilization         | ![Nutrilization](assets/MOBILE/nutrilization.png)  |
+| NutriOut              | ![NutriOut](assets/MOBILE/nutriOut.png)            |
+| Profile               | ![Profile](assets/MOBILE/profile.png)              |
+| Registration          | ![Registration](assets/MOBILE/registration.png)    |
+| Search                | ![Search](assets/MOBILE/Search.png)                |
+| Shopping List         | ![Shopping List](assets/MOBILE/shopping.png)       |
+| Welcome               | ![Welcome](assets/MOBILE/welcom.png)               |
+
 ## Features
 
 - **Product Scanning**: Scan food packages to get ingredient analysis.
@@ -18,12 +37,19 @@ Nutrito is a mobile application designed to help users make informed food choice
 
 - **Flutter** (Dart) - For mobile app development.
 
+
+
 ### Backend
 
 - **Node.js** (Express) - For API management.
 - **Python** - For machine learning and image processing.
 - **MongoDB** - NoSQL database for storing user data and product analysis.
 - **Firebase** - Authentication and cloud storage.
+## UI Design (Figma)
+
+You can explore the Nutrito app's UI wireframes and design prototypes on Figma:
+
+[View Nutrito Figma Wireframe](https://www.figma.com/design/Djg2Jdm19gVoMmVeclvLku/NUTRITO-WIREFRAME-?node-id=0-1&t=3ZgbIkryqSlJtQxD-1)
 
 ## Installation
 
@@ -89,7 +115,7 @@ Ensure you have the following installed:
 
 ## Contributors
 
-- **Om Manoj Jamnekar** - Frontend, UI, Deployment
+- **Om Manoj Jamnekar** - Frontend, UI, Deployment,RAG
 - **Shiva Purrhottam Aleti** - Backend, API, Database
 
 ## License
