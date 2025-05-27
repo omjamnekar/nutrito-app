@@ -105,6 +105,25 @@ Ensure you have the following installed:
 | GET    | `/api/alternatives/:id` | Get alternative products |
 | POST   | `/api/nutrilization/`   | get nutri data of products|
 
+### Additional API Endpoints (Python Flask)
+
+Below are additional backend API endpoints implemented in the Python Flask server:
+
+| Method | Endpoint                       | Description                                                      |
+|--------|-------------------------------|------------------------------------------------------------------|
+| POST   | `/api/initial_prompt`         | Analyze initial product image for ingredient extraction          |
+| POST   | `/api/ratio_prompt`           | Analyze product image for nutritional ratio extraction           |
+| POST   | `/api/health_prompt`          | Analyze product image for health considerations                  |
+| POST   | `/api/conclusion_prompt`      | Analyze product image for conclusion summary                     |
+| POST   | `/api/com_compare_product`    | Compare two product images for nutritional differences           |
+| POST   | `/api/alternativeSuggestion`  | Suggest alternatives based on product name and description       |
+| POST   | `/api/imageAlternativeSuggestion` | Suggest alternatives based on product image                  |
+| POST   | `/api/generateAlternative`    | Generate alternative suggestions using AI model                  |
+| POST   | `/api/catergoriedSearch`      | Search/filter products by category and nutrient                  |
+| POST   | `/api/smartlist`              | Generate a smart shopping list from user input                   |
+
+These endpoints support advanced features such as image-based ingredient extraction, product comparison, and AI-powered alternative suggestions.
+
 ## Usage
 
 1. Open the app and register/login.
@@ -118,9 +137,6 @@ Ensure you have the following installed:
 - **Om Manoj Jamnekar** - Frontend, UI, Deployment,RAG
 - **Shiva Purrhottam Aleti** - Backend, API, Database
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
