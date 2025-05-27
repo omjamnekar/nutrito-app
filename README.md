@@ -103,6 +103,7 @@ Ensure you have the following installed:
 | GET    | `/api/products`         | Get all products         |
 | POST   | `/api/scan`             | Scan a product           |
 | GET    | `/api/alternatives/:id` | Get alternative products |
+| POST   | `/api/nutrilization/`   | get nutri data of products|
 
 ## Usage
 
