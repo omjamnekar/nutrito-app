@@ -166,79 +166,81 @@ class _AlternativePageState extends ConsumerState<AlternativePage> {
                                       content: Text("image is not selected")));
                               return;
                             }
-                            final sd = PaymentStatusManager();
-                            final data = await sd.getPaymentStatus();
-                            if (data) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => GenLoading()),
-                              );
-                              Future.delayed(
-                                Duration(milliseconds: 2000),
-                                () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AlternativeImagePage()),
-                                  );
-                                },
-                              );
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "Subscription Required",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    content: Text(
-                                      "You need to subscribe to use this feature. Would you like to proceed?",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SubscriptionPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          "Subscribe",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.green,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
+                            // final sd =  ();
+                            Future.delayed(
+                              Duration(milliseconds: 2000),
+                              () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AlternativeImagePage()),
+                                );
+                              },
+                            );
+                            // final data = await sd.getPaymentStatus();
+                            // if (data) {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => GenLoading()),
+                            //   );
+                            // }
+
+                            //  else {
+                            //   showDialog(
+                            //     context: context,
+                            //     builder: (context) {
+                            //       return AlertDialog(
+                            //         title: Text(
+                            //           "Subscription Required",
+                            //           style: GoogleFonts.poppins(
+                            //             fontSize: 20,
+                            //             fontWeight: FontWeight.bold,
+                            //           ),
+                            //         ),
+                            //         content: Text(
+                            //           "You need to subscribe to use this feature. Would you like to proceed?",
+                            //           style: GoogleFonts.poppins(
+                            //             fontSize: 16,
+                            //           ),
+                            //         ),
+                            //         actions: [
+                            //           TextButton(
+                            //             onPressed: () {
+                            //               Navigator.pop(context);
+                            //             },
+                            //             child: Text(
+                            //               "Cancel",
+                            //               style: GoogleFonts.poppins(
+                            //                 color: Colors.red,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //           TextButton(
+                            //             onPressed: () {
+                            //               Navigator.pop(context);
+                            //               Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) =>
+                            //                       SubscriptionPage(),
+                            //                 ),
+                            //               );
+                            //             },
+                            //             child: Text(
+                            //               "Subscribe",
+                            //               style: GoogleFonts.poppins(
+                            //                 color: Colors.green,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       );
+                            //     },
+                            //   );
+                            // }
                           },
                           iconAlignment: IconAlignment.end,
                           icon: Icon(Icons.arrow_right_alt_sharp,

@@ -24,10 +24,9 @@ class AuthController extends GetxController {
     Map<String, dynamic> registerData = await ref
         .watch(authStateProvider.notifier)
         .signup(email, password, name);
-    snackBar(registerData["message"]);
+    snackBar(registerData["message"] + " is registered");
     FocusScope.of(Get.context!).unfocus();
     if (registerData["state"] == 'success') {
-      print("datta data :${registerData["id"]}");
       final userModel = UserModel(
           id: registerData["id"],
           email: email,
@@ -37,21 +36,23 @@ class AuthController extends GetxController {
           phone: "");
       await ref.watch(userStateProvider.notifier).updateDataState(userModel);
 
-      await ref.read(primarySetupProvider.notifier).setupPrimaryCourse().then(
-        (value) {
-          if (value.statusCode == 200 || value.statusCode == 201) {
-            Get.to(
-                () => VerificationPage(
-                      authcontroller: ctrl,
-                    ),
-                transition: Transition.zoom,
-                duration: Duration(milliseconds: 600));
-          } else {
-            Get.snackbar(value.statusCode.toString(),
-                value.message?.toString() ?? "network errors");
-          }
-        },
-      );
+      Get.to(
+          () => VerificationPage(
+                authcontroller: ctrl,
+              ),
+          transition: Transition.zoom,
+          duration: Duration(milliseconds: 600));
+      // await ref.read(primarySetupProvider.notifier).setupPrimaryCourse().then(
+      //   (value) {
+      //     if (value.statusCode == 200 || value.statusCode == 201) {
+      //     }
+
+      // else {
+      //   Get.snackbar(value.statusCode.toString(),
+      //       value.message?.toString() ?? "network errors");
+      // }
+      // },
+      // );
     } else {
       return;
     }
